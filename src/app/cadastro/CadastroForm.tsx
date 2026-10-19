@@ -15,7 +15,7 @@ function Botao() {
 export function CadastroForm() {
   const [estado, acao] = useFormState(cadastrar, null);
   if (estado?.ok) {
-    return <p className="rounded-lg bg-emerald-50 p-4 text-sm text-emerald-800">{estado.ok}</p>;
+    return <p className="rounded-xl bg-[#e3f2e9] p-4 text-sm text-[#0f3d24]">{estado.ok}</p>;
   }
   return (
     <form action={acao} className="space-y-4">

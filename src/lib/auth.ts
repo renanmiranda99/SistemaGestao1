@@ -1,20 +1,26 @@
+import { cache } from "react";
 import { redirect } from "next/navigation";
 import { createClient } from "./supabase/server";
 import type { Profile, Role } from "./types";
 
-export async function getSessao() {
+/**
+ * Sessão + perfil do usuário logado.
+ * `cache` faz o layout e a página compartilharem UMA única consulta por requisição.
+ * `getClaims` valida o token localmente (chaves JWT assimétricas do Supabase),
+ * sem ida ao servidor de autenticação a cada página.
+ */
+export const getSessao = cache(async () => {
   const supabase = createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) return { supabase, user: null, perfil: null };
+  const { data } = await supabase.auth.getClaims();
+  const id = data?.claims?.sub;
+  if (!id) return { supabase, user: null, perfil: null };
   const { data: perfil } = await supabase
     .from("profiles")
     .select("*")
-    .eq("id", user.id)
+    .eq("id", id)
     .single<Profile>();
-  return { supabase, user, perfil };
-}
+  return { supabase, user: { id }, perfil };
+});
 
 /** Garante usuário logado com o perfil exigido; senão redireciona. */
 export async function exigirPerfil(role: Role) {

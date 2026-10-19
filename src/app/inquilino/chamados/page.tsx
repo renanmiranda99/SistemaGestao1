@@ -26,8 +26,8 @@ export default async function ChamadosInquilino() {
           {chamados.map((c) => (
             <Link key={c.id} href={`/inquilino/chamados/${c.id}`} className="flex flex-wrap items-center justify-between gap-2 px-5 py-4 hover:bg-stone-50">
               <div>
-                <div className="font-medium text-slate-900">{c.titulo}</div>
-                <div className="text-xs text-slate-500">{dataBR(c.created_at)} · {CATEGORIAS[c.categoria] ?? c.categoria}</div>
+                <div className="font-medium text-stone-900">{c.titulo}</div>
+                <div className="text-xs text-stone-600">{dataBR(c.created_at)} · {CATEGORIAS[c.categoria] ?? c.categoria}</div>
               </div>
               <StatusBadge status={c.status} />
             </Link>

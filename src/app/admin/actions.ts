@@ -39,6 +39,7 @@ export async function criarContrato(inquilinoId: string, form: FormData) {
   const { error } = await supabase.from("contratos").insert({
     inquilino_id: inquilinoId,
     sala_id,
+    data_assinatura: opt(form, "data_assinatura"),
     data_inicio: txt(form, "data_inicio"),
     data_fim: opt(form, "data_fim"),
     valor_mensal: num(form, "valor_mensal"),
@@ -47,7 +48,7 @@ export async function criarContrato(inquilinoId: string, form: FormData) {
     juros_mensal_percentual: num(form, "juros_mensal_percentual") ?? 1,
   });
   if (error) throw new Error(error.message);
-  if (sala_id) await supabase.from("salas").update({ inquilino_id: inquilinoId }).eq("id", sala_id);
+  if (sala_id) await supabase.from("salas").update({ inquilino_id: inquilinoId, disponivel_aluguel: false }).eq("id", sala_id);
   // Já lança as cobranças desde o início do contrato até o mês atual
   await gerarRetroativas(inquilinoId);
   atualizar(`/admin/inquilinos/${inquilinoId}`);
@@ -174,6 +175,16 @@ export async function marcarMulta(id: string, status: "pendente" | "paga" | "can
 }
 
 // ---------------- Salas, fotos e avisos ----------------
+/**
+ * Campo "inquilino" do formulário de sala: um inquilino, "disponivel" (anunciar na
+ * página inicial como disponível para aluguel) ou vazio (sem inquilino e sem anúncio).
+ */
+function ocupacao(form: FormData) {
+  const escolha = opt(form, "inquilino_id");
+  if (escolha === "disponivel") return { inquilino_id: null, disponivel_aluguel: true };
+  return { inquilino_id: escolha, disponivel_aluguel: false };
+}
+
 export async function salvarSala(id: string | null, form: FormData) {
   const { supabase } = await exigirPerfil("admin");
   const dados = {
@@ -182,24 +193,129 @@ export async function salvarSala(id: string | null, form: FormData) {
     area_m2: num(form, "area_m2"),
     valor_aluguel: num(form, "valor_aluguel"),
     descricao: opt(form, "descricao"),
-    inquilino_id: opt(form, "inquilino_id"),
+    ...ocupacao(form),
   };
   if (id) await supabase.from("salas").update(dados).eq("id", id);
   else await supabase.from("salas").insert(dados);
+  atualizar("/admin/galeria");
+  revalidatePath("/");
+}
+
+/**
+ * Cadastra uma sala nova. Se já tiver inquilino, cria junto o contrato
+ * (assinatura, início, vencimento do contrato e dia de vencimento da mensalidade)
+ * e devolve o id da sala para o navegador enviar as fotos escolhidas.
+ */
+export async function cadastrarSala(
+  _: { erro?: string; id?: string } | null,
+  form: FormData
+): Promise<{ erro?: string; id?: string } | null> {
+  const { supabase } = await exigirPerfil("admin");
+  const { inquilino_id, disponivel_aluguel } = ocupacao(form);
+  const valorAluguel = num(form, "valor_aluguel");
+
+  const contrato = inquilino_id
+    ? {
+        data_assinatura: opt(form, "data_assinatura"),
+        data_inicio: opt(form, "data_inicio"),
+        data_fim: opt(form, "data_fim"),
+        valor_mensal: valorAluguel,
+        dia_vencimento: num(form, "dia_vencimento"),
+        multa_percentual: num(form, "multa_percentual") ?? 2,
+        juros_mensal_percentual: num(form, "juros_mensal_percentual") ?? 1,
+      }
+    : null;
+  if (contrato) {
+    if (!contrato.valor_mensal) return { erro: "Informe o valor do aluguel para criar o contrato." };
+    if (!contrato.data_inicio) return { erro: "Informe a data de início do contrato." };
+    if (!contrato.dia_vencimento || contrato.dia_vencimento < 1 || contrato.dia_vencimento > 28)
+      return { erro: "O dia de vencimento da mensalidade deve ser entre 1 e 28." };
+    if (contrato.data_fim && contrato.data_fim <= contrato.data_inicio)
+      return { erro: "O vencimento do contrato deve ser depois da data de início." };
+  }
+
+  const { data: sala, error } = await supabase
+    .from("salas")
+    .insert({
+      nome: txt(form, "nome"),
+      andar: opt(form, "andar"),
+      area_m2: num(form, "area_m2"),
+      valor_aluguel: valorAluguel,
+      descricao: opt(form, "descricao"),
+      inquilino_id,
+      disponivel_aluguel,
+    })
+    .select("id")
+    .single();
+  if (error || !sala) return { erro: error?.message ?? "Não foi possível cadastrar a sala." };
+
+  if (contrato && inquilino_id) {
+    const { error: e2 } = await supabase.from("contratos").insert({ ...contrato, inquilino_id, sala_id: sala.id });
+    if (e2) return { id: sala.id, erro: `Sala cadastrada, mas o contrato falhou: ${e2.message}` };
+    await gerarRetroativas(inquilino_id);
+  }
+  atualizar("/admin/galeria");
+  revalidatePath("/");
+  // As fotos escolhidas no formulário são enviadas pelo navegador em seguida, já com o id da sala
+  return { id: sala.id };
+}
+
+export async function registrarFotoVistoria(
+  salaId: string,
+  path: string,
+  dados: { tipo: string; legenda: string; registradaEm: string }
+) {
+  const { supabase } = await exigirPerfil("admin");
+  const { error } = await supabase.from("vistoria_fotos").insert({
+    sala_id: salaId,
+    storage_path: path,
+    tipo: ["entrada", "saida", "dano"].includes(dados.tipo) ? dados.tipo : "entrada",
+    legenda: dados.legenda.trim() || null,
+    registrada_em: dados.registradaEm || hojeISO(),
+  });
+  revalidatePath("/admin/galeria");
+  return error?.message ?? null;
+}
+
+export async function excluirFotoVistoria(id: string) {
+  const { supabase } = await exigirPerfil("admin");
+  const { data: f } = await supabase.from("vistoria_fotos").select("storage_path").eq("id", id).single();
+  if (f) await supabase.storage.from("vistorias").remove([f.storage_path]);
+  await supabase.from("vistoria_fotos").delete().eq("id", id);
   atualizar("/admin/galeria");
 }
 
 export async function excluirSala(id: string) {
   const { supabase } = await exigirPerfil("admin");
+  // As linhas de vistoria somem em cascata; os arquivos do Storage precisam ser apagados à parte
+  const { data: vist } = await supabase.from("vistoria_fotos").select("storage_path").eq("sala_id", id);
+  if (vist?.length) await supabase.storage.from("vistorias").remove(vist.map((v) => v.storage_path as string));
   await supabase.from("salas").delete().eq("id", id);
   atualizar("/admin/galeria");
 }
 
-export async function registrarFoto(salaId: string | null, path: string) {
+/** Registra uma foto. Sem `ordem`, ela entra depois das que já existem na sala. */
+export async function registrarFoto(salaId: string | null, path: string, ordem?: number) {
   const { supabase } = await exigirPerfil("admin");
-  const { error } = await supabase.from("fotos").insert({ sala_id: salaId, storage_path: path });
+  let posicao = ordem;
+  if (posicao === undefined) {
+    let q = supabase.from("fotos").select("ordem").order("ordem", { ascending: false }).limit(1);
+    q = salaId ? q.eq("sala_id", salaId) : q.is("sala_id", null);
+    const { data: ultima } = await q.maybeSingle();
+    posicao = ultima ? Number(ultima.ordem) + 1 : 0;
+  }
+  const { error } = await supabase.from("fotos").insert({ sala_id: salaId, storage_path: path, ordem: posicao });
   revalidatePath("/admin", "layout");
+  revalidatePath("/");
   return error?.message ?? null;
+}
+
+/** Grava a nova ordem das fotos: a primeira da lista vira a capa. */
+export async function reordenarFotos(ids: string[]) {
+  const { supabase } = await exigirPerfil("admin");
+  const resultados = await Promise.all(ids.map((id, i) => supabase.from("fotos").update({ ordem: i }).eq("id", id)));
+  atualizar("/admin/galeria", "/", "/inquilino/galeria");
+  return resultados.find((r) => r.error)?.error?.message ?? null;
 }
 
 export async function excluirFoto(id: string) {
@@ -207,7 +323,7 @@ export async function excluirFoto(id: string) {
   const { data: f } = await supabase.from("fotos").select("storage_path").eq("id", id).single();
   if (f) await supabase.storage.from("fotos").remove([f.storage_path]);
   await supabase.from("fotos").delete().eq("id", id);
-  atualizar("/admin/galeria");
+  atualizar("/admin/galeria", "/");
 }
 
 export async function publicarAviso(form: FormData) {

@@ -2,7 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { exigirPerfil, urlsAssinadas } from "@/lib/auth";
 import { dadosFinanceirosInquilino } from "@/lib/dados";
-import { ehPendente, situacao, valorAtualizado } from "@/lib/cobranca";
+import { detalheSituacao, ehPendente, situacao, valorAtualizado } from "@/lib/cobranca";
 import { brl, dataBR, dataHoraBR, hojeISO, mesAno, mesAnoLongo } from "@/lib/format";
 import { apiWhatsAppConfigurada, mensagemCobranca } from "@/lib/whatsapp";
 import type { Aditivo, Profile } from "@/lib/types";
@@ -48,10 +48,16 @@ export default async function AdminInquilino({ params }: { params: { id: string 
 
   return (
     <>
-      <Link href="/admin/inquilinos" className="link text-sm">← Inquilinos</Link>
+      <Link href="/admin/inquilinos" className="link mb-4 inline-flex min-h-8 items-center text-sm">← Inquilinos</Link>
       <PageHeader
         titulo={inq.nome || inq.email}
-        descricao={`${inq.email}${inq.telefone ? ` · ${inq.telefone}` : ""} · Em aberto: ${brl(totalPendente)}`}
+        descricao={
+          <>
+            {inq.email}
+            {inq.telefone ? ` · ${inq.telefone}` : ""} · Em aberto:{" "}
+            <b className={totalPendente ? "text-[#b42318]" : "text-[#2f7d55]"}>{brl(totalPendente)}</b>
+          </>
+        }
         acoes={
           <BotaoWhatsApp
             inquilinoId={inq.id}
@@ -81,7 +87,7 @@ export default async function AdminInquilino({ params }: { params: { id: string 
         {/* Contratos */}
         <section className="card lg:col-span-2">
           <h2 className="mb-4 font-semibold">Contratos e aditivos</h2>
-          {!contratos.length && <p className="mb-4 text-sm text-slate-500">Nenhum contrato ainda.</p>}
+          {!contratos.length && <p className="mb-4 text-sm text-stone-600">Nenhum contrato ainda.</p>}
           <div className="space-y-4">
             {contratos.map((c) => (
               <div key={c.id} className={`rounded-lg border border-stone-200 p-4 ${c.ativo ? "" : "bg-stone-50 opacity-70"}`}>
@@ -91,8 +97,8 @@ export default async function AdminInquilino({ params }: { params: { id: string 
                       {c.sala_id ? nomeSala.get(c.sala_id) : "Sem sala"} · {brl(c.valor_mensal)}/mês · vence dia {c.dia_vencimento}
                       {!c.ativo && " · encerrado"}
                     </div>
-                    <div className="text-slate-500">
-                      {dataBR(c.data_inicio)} a {dataBR(c.data_fim)} · multa {Number(c.multa_percentual)}% · juros {Number(c.juros_mensal_percentual)}% a.m.
+                    <div className="text-stone-600">
+                      {c.data_assinatura && <>Assinado em {dataBR(c.data_assinatura)} · </>}Vigência {dataBR(c.data_inicio)} a {dataBR(c.data_fim)} · multa {Number(c.multa_percentual)}% · juros {Number(c.juros_mensal_percentual)}% a.m.
                     </div>
                   </div>
                   <div className="flex flex-wrap gap-2">
@@ -112,7 +118,7 @@ export default async function AdminInquilino({ params }: { params: { id: string 
                 <ul className="mt-3 space-y-1 text-sm">
                   {aditivos.filter((a) => a.contrato_id === c.id).map((a) => (
                     <li key={a.id} className="flex flex-wrap items-center justify-between gap-2 rounded bg-stone-50 px-3 py-1.5">
-                      <span><span className="font-medium">{a.titulo}</span> <span className="text-slate-500">· {dataBR(a.data)}</span></span>
+                      <span><span className="font-medium">{a.titulo}</span> <span className="text-stone-600">· {dataBR(a.data)}</span></span>
                       <span className="flex items-center gap-2">
                         {a.arquivo_path && urls[a.arquivo_path] && (
                           <a href={urls[a.arquivo_path]} target="_blank" rel="noreferrer" className="link text-xs">ver</a>
@@ -145,8 +151,9 @@ export default async function AdminInquilino({ params }: { params: { id: string 
                   {salasLivres.map((s) => <option key={s.id} value={s.id}>{s.nome}</option>)}
                 </select>
               </div>
+              <div><label className="label">Data de assinatura</label><input name="data_assinatura" type="date" className="input" defaultValue={hoje} /></div>
               <div><label className="label">Início</label><input name="data_inicio" type="date" required className="input" defaultValue={hoje} /></div>
-              <div><label className="label">Término</label><input name="data_fim" type="date" className="input" /></div>
+              <div><label className="label">Vencimento do contrato</label><input name="data_fim" type="date" className="input" /></div>
               <div><label className="label">Aluguel (R$)</label><input name="valor_mensal" required inputMode="decimal" placeholder="1500,00" className="input" /></div>
               <div><label className="label">Dia de vencimento</label><input name="dia_vencimento" type="number" min={1} max={28} required defaultValue={10} className="input" /></div>
               <div className="grid grid-cols-2 gap-2">
@@ -154,7 +161,7 @@ export default async function AdminInquilino({ params }: { params: { id: string 
                 <div><label className="label">Juros % a.m.</label><input name="juros_mensal_percentual" defaultValue="1" className="input" /></div>
               </div>
               <div className="sm:col-span-3">
-                <p className="mb-2 text-xs text-slate-500">As cobranças mensais desde o início do contrato até o mês atual são lançadas automaticamente. Depois anexe o PDF.</p>
+                <p className="mb-2 text-xs text-stone-600">As cobranças mensais desde o início do contrato até o mês atual são lançadas automaticamente. Depois anexe o PDF.</p>
                 <button className="btn-primary">Criar contrato</button>
               </div>
             </form>
@@ -163,7 +170,7 @@ export default async function AdminInquilino({ params }: { params: { id: string 
       </div>
 
       {/* Cobranças */}
-      <section className="card mt-6 overflow-x-auto">
+      <section className="card mt-6 overflow-x-auto lg:overflow-visible">
         <h2 className="mb-4 font-semibold">Pagamentos mês a mês</h2>
         {cobrancas.length ? (
           <table className="table">
@@ -180,7 +187,7 @@ export default async function AdminInquilino({ params }: { params: { id: string 
                     <td>{dataBR(c.vencimento)}</td>
                     <td className="text-right">{brl(c.valor)}</td>
                     <td className="text-right">{v.total !== v.base ? <span className="text-red-700">{brl(v.total)}</span> : "—"}</td>
-                    <td><SituacaoBadge situacao={s} /></td>
+                    <td><SituacaoBadge situacao={s} dica={detalheSituacao(c, contratoDe(c), hoje)} /></td>
                     <td>{dataBR(c.pago_em)}</td>
                     <td>
                       <div className="flex justify-end gap-1">
@@ -231,7 +238,7 @@ export default async function AdminInquilino({ params }: { params: { id: string 
                 <li key={m.id} className="flex flex-wrap items-center justify-between gap-2 py-2">
                   <div>
                     <div className="font-medium">{m.descricao}</div>
-                    <div className="text-xs text-slate-500">{dataBR(m.data)} · {brl(m.valor)}</div>
+                    <div className="text-xs text-stone-600">{dataBR(m.data)} · {brl(m.valor)}</div>
                   </div>
                   <div className="flex items-center gap-1">
                     <StatusBadge status={m.status} />
@@ -246,7 +253,7 @@ export default async function AdminInquilino({ params }: { params: { id: string 
               ))}
             </ul>
           ) : (
-            <p className="mb-4 text-sm text-slate-500">Nenhuma multa.</p>
+            <p className="mb-4 text-sm text-stone-600">Nenhuma multa.</p>
           )}
           <form action={lancarMulta.bind(null, inq.id)} className="grid gap-2 border-t border-stone-100 pt-4 sm:grid-cols-2">
             <input name="descricao" required placeholder="Motivo da multa" className="input sm:col-span-2" />
@@ -267,16 +274,16 @@ export default async function AdminInquilino({ params }: { params: { id: string 
             <ul className="space-y-3 text-sm">
               {msgs.map((m) => (
                 <li key={m.id} className="rounded-lg bg-stone-50 p-3">
-                  <div className="mb-1 flex justify-between text-xs text-slate-500">
+                  <div className="mb-1 flex justify-between text-xs text-stone-600">
                     <span>{dataHoraBR(m.created_at)} · {m.tipo === "automatica" ? "Automática" : "Manual"}</span>
                     <span>{m.status}</span>
                   </div>
-                  <p className="line-clamp-3 whitespace-pre-line text-slate-700">{m.mensagem}</p>
+                  <p className="line-clamp-3 whitespace-pre-line text-stone-700">{m.mensagem}</p>
                 </li>
               ))}
             </ul>
           ) : (
-            <p className="text-sm text-slate-500">Nenhuma mensagem enviada.</p>
+            <p className="text-sm text-stone-600">Nenhuma mensagem enviada.</p>
           )}
         </section>
       </div>

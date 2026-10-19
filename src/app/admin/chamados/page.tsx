@@ -32,7 +32,7 @@ export default async function ChamadosAdmin({ searchParams }: { searchParams: { 
       <PageHeader titulo="Chamados" descricao="Problemas e solicitações registrados pelos inquilinos." />
       <div className="mb-4 flex flex-wrap gap-2">
         {FILTROS.map((x) => (
-          <Link key={x.v} href={`/admin/chamados?f=${x.v}`} className={f === x.v ? "btn-primary btn-sm" : "btn-secondary btn-sm"}>
+          <Link key={x.v} href={`/admin/chamados?f=${x.v}`} className={`chip ${f === x.v ? "chip-ativo" : ""}`}>
             {x.r}
           </Link>
         ))}
@@ -43,7 +43,7 @@ export default async function ChamadosAdmin({ searchParams }: { searchParams: { 
             <thead><tr><th>Aberto em</th><th>Título</th><th>Inquilino</th><th>Sala</th><th>Categoria</th><th>Prioridade</th><th>Status</th></tr></thead>
             <tbody>
               {chamados.map((c) => (
-                <tr key={c.id} className="hover:bg-stone-50">
+                <tr key={c.id} className="hover:bg-stone-50/60">
                   <td>{dataBR(c.created_at)}</td>
                   <td><Link href={`/admin/chamados/${c.id}`} className="font-medium hover:underline">{c.titulo}</Link></td>
                   <td>{nome.get(c.inquilino_id) ?? "—"}</td>

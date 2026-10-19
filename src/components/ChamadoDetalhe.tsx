@@ -38,8 +38,8 @@ export async function ChamadoDetalhe({
       <div className="card mt-4">
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
-            <h1 className="text-xl font-semibold text-slate-900">{chamado.titulo}</h1>
-            <p className="mt-1 text-sm text-slate-500">
+            <h1 className="text-xl font-semibold text-stone-900">{chamado.titulo}</h1>
+            <p className="mt-1 text-sm text-stone-600">
               Aberto em {dataHoraBR(chamado.created_at)} · {CATEGORIAS[chamado.categoria] ?? chamado.categoria}
               {sala?.nome && <> · {sala.nome}</>}
               {modo === "admin" && <> · {nomeInquilino}</>}
@@ -50,7 +50,7 @@ export async function ChamadoDetalhe({
             <StatusBadge status={chamado.status} />
           </div>
         </div>
-        <p className="mt-4 whitespace-pre-line text-sm text-slate-700">{chamado.descricao}</p>
+        <p className="mt-4 whitespace-pre-line text-sm text-stone-700">{chamado.descricao}</p>
         {chamado.foto_path && urls[chamado.foto_path] && (
           <a href={urls[chamado.foto_path]} target="_blank" rel="noreferrer" className="mt-4 block">
             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -59,7 +59,7 @@ export async function ChamadoDetalhe({
         )}
         {modo === "admin" && (
           <form action={alterarStatusChamado.bind(null, chamado.id)} className="mt-5 flex items-center gap-2 border-t border-stone-100 pt-4">
-            <label className="text-sm text-slate-600" htmlFor="status">Status:</label>
+            <label className="text-sm text-stone-600" htmlFor="status">Status:</label>
             <select id="status" name="status" defaultValue={chamado.status} className="input w-auto">
               <option value="aberto">Aberto</option>
               <option value="em_andamento">Em andamento</option>
@@ -71,7 +71,7 @@ export async function ChamadoDetalhe({
         )}
       </div>
 
-      <h2 className="mb-3 mt-8 text-sm font-semibold uppercase tracking-wide text-slate-500">Conversa</h2>
+      <h2 className="mb-3 mt-8 text-sm font-semibold uppercase tracking-wide text-stone-600">Conversa</h2>
       <div className="space-y-3">
         {mensagens.map((m) => {
           const doInquilino = m.autor_id === chamado.inquilino_id;
@@ -79,7 +79,7 @@ export async function ChamadoDetalhe({
           return (
             <div key={m.id} className={`flex ${minha ? "justify-end" : "justify-start"}`}>
               <div className={`max-w-[85%] rounded-xl px-4 py-2.5 text-sm ${minha ? "bg-brand-600 text-white" : "border border-stone-200 bg-white"}`}>
-                <div className={`mb-0.5 text-xs ${minha ? "text-brand-100" : "text-slate-400"}`}>
+                <div className={`mb-0.5 text-xs ${minha ? "text-brand-100" : "text-stone-600"}`}>
                   {doInquilino ? nomeInquilino : "Administração"} · {dataHoraBR(m.created_at)}
                 </div>
                 <p className="whitespace-pre-line">{m.mensagem}</p>
@@ -87,7 +87,7 @@ export async function ChamadoDetalhe({
             </div>
           );
         })}
-        {!mensagens.length && <p className="text-sm text-slate-500">Nenhuma mensagem ainda.</p>}
+        {!mensagens.length && <p className="text-sm text-stone-600">Nenhuma mensagem ainda.</p>}
       </div>
       {chamado.status !== "fechado" && (
         <form action={enviarMensagemChamado.bind(null, chamado.id)} className="mt-4 flex gap-2">

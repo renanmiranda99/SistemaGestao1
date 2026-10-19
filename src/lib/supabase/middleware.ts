@@ -25,14 +25,16 @@ export async function updateSession(request: NextRequest) {
     }
   );
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  // getClaims valida o token localmente (sem chamada de rede na maioria das vezes)
+  // e renova a sessão quando o token expira.
+  const { data } = await supabase.auth.getClaims();
+  const logado = Boolean(data?.claims?.sub);
 
   const path = request.nextUrl.pathname;
-  const publica = ROTAS_PUBLICAS.some((r) => path.startsWith(r));
+  // "/" é a página pública com as salas disponíveis para aluguel
+  const publica = path === "/" || ROTAS_PUBLICAS.some((r) => path.startsWith(r));
 
-  if (!user && !publica) {
+  if (!logado && !publica) {
     const url = request.nextUrl.clone();
     url.pathname = "/login";
     return NextResponse.redirect(url);

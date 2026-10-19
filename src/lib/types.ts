@@ -19,6 +19,8 @@ export type Sala = {
   descricao: string | null;
   valor_aluguel: number | null;
   inquilino_id: string | null;
+  /** Anunciada na página inicial pública (só vale sem inquilino). */
+  disponivel_aluguel: boolean;
   created_at: string;
 };
 
@@ -28,6 +30,19 @@ export type Foto = {
   storage_path: string;
   legenda: string | null;
   ordem: number;
+};
+
+export type TipoVistoria = "entrada" | "saida" | "dano";
+
+/** Foto da vistoria de uma sala (prova do estado do imóvel para cobrança de danos). */
+export type VistoriaFoto = {
+  id: string;
+  sala_id: string;
+  storage_path: string;
+  tipo: TipoVistoria;
+  legenda: string | null;
+  registrada_em: string;
+  created_at: string;
 };
 
 export type Aviso = {
@@ -41,6 +56,7 @@ export type Contrato = {
   id: string;
   inquilino_id: string;
   sala_id: string | null;
+  data_assinatura: string | null;
   data_inicio: string;
   data_fim: string | null;
   valor_mensal: number;

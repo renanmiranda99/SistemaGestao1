@@ -33,17 +33,18 @@ export default async function ContratosInquilino() {
             <div key={c.id} className="card">
               <div className="flex flex-wrap items-start justify-between gap-4">
                 <div>
-                  <h2 className="font-semibold text-slate-900">
+                  <h2 className="font-semibold text-stone-900">
                     Contrato {c.sala_id ? `— ${nomeSala.get(c.sala_id) ?? "Sala"}` : ""}
-                    {!c.ativo && <span className="ml-2 text-xs font-normal text-slate-400">(encerrado)</span>}
+                    {!c.ativo && <span className="ml-2 text-xs font-normal text-stone-600">(encerrado)</span>}
                   </h2>
                   <dl className="mt-3 grid grid-cols-2 gap-x-8 gap-y-2 text-sm sm:grid-cols-4">
-                    <div><dt className="text-slate-500">Início</dt><dd className="font-medium">{dataBR(c.data_inicio)}</dd></div>
-                    <div><dt className="text-slate-500">Término</dt><dd className="font-medium">{dataBR(c.data_fim)}</dd></div>
-                    <div><dt className="text-slate-500">Aluguel</dt><dd className="font-medium">{brl(c.valor_mensal)}</dd></div>
-                    <div><dt className="text-slate-500">Vencimento</dt><dd className="font-medium">Todo dia {c.dia_vencimento}</dd></div>
-                    <div><dt className="text-slate-500">Multa por atraso</dt><dd className="font-medium">{Number(c.multa_percentual)}%</dd></div>
-                    <div><dt className="text-slate-500">Juros</dt><dd className="font-medium">{Number(c.juros_mensal_percentual)}% ao mês</dd></div>
+                    <div><dt className="text-stone-600">Início</dt><dd className="font-medium">{dataBR(c.data_inicio)}</dd></div>
+                    <div><dt className="text-stone-600">Vencimento do contrato</dt><dd className="font-medium">{dataBR(c.data_fim)}</dd></div>
+                    <div><dt className="text-stone-600">Assinatura</dt><dd className="font-medium">{dataBR(c.data_assinatura)}</dd></div>
+                    <div><dt className="text-stone-600">Aluguel</dt><dd className="font-medium">{brl(c.valor_mensal)}</dd></div>
+                    <div><dt className="text-stone-600">Vencimento da mensalidade</dt><dd className="font-medium">Todo dia {c.dia_vencimento}</dd></div>
+                    <div><dt className="text-stone-600">Multa por atraso</dt><dd className="font-medium">{Number(c.multa_percentual)}%</dd></div>
+                    <div><dt className="text-stone-600">Juros</dt><dd className="font-medium">{Number(c.juros_mensal_percentual)}% ao mês</dd></div>
                   </dl>
                 </div>
                 {c.arquivo_path && urls[c.arquivo_path] && (
@@ -53,15 +54,15 @@ export default async function ContratosInquilino() {
                 )}
               </div>
               <div className="mt-5 border-t border-stone-100 pt-4">
-                <h3 className="mb-2 text-sm font-semibold text-slate-700">Aditivos contratuais</h3>
+                <h3 className="mb-2 text-sm font-semibold text-stone-700">Aditivos contratuais</h3>
                 {meusAditivos.length ? (
                   <ul className="divide-y divide-stone-100 text-sm">
                     {meusAditivos.map((a) => (
                       <li key={a.id} className="flex flex-wrap items-center justify-between gap-2 py-2">
                         <div>
                           <span className="font-medium">{a.titulo}</span>
-                          <span className="ml-2 text-slate-500">{dataBR(a.data)}</span>
-                          {a.descricao && <p className="text-slate-500">{a.descricao}</p>}
+                          <span className="ml-2 text-stone-600">{dataBR(a.data)}</span>
+                          {a.descricao && <p className="text-stone-600">{a.descricao}</p>}
                         </div>
                         {a.arquivo_path && urls[a.arquivo_path] && (
                           <a href={urls[a.arquivo_path]} target="_blank" rel="noreferrer" className="link">abrir</a>
@@ -70,7 +71,7 @@ export default async function ContratosInquilino() {
                     ))}
                   </ul>
                 ) : (
-                  <p className="text-sm text-slate-500">Nenhum aditivo.</p>
+                  <p className="text-sm text-stone-600">Nenhum aditivo.</p>
                 )}
               </div>
             </div>

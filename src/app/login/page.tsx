@@ -10,9 +10,9 @@ export default function LoginPage({ searchParams }: { searchParams: { erro?: str
         ? "Não foi possível confirmar o e-mail. Tente entrar ou peça um novo link."
         : undefined;
   return (
-    <AuthCard titulo="Entrar" subtitulo="Acesse o portal da galeria">
+    <AuthCard titulo="Entrar" subtitulo="Use o e-mail cadastrado na galeria.">
       <LoginForm erroInicial={erro} />
-      <p className="mt-6 text-center text-sm text-slate-500">
+      <p className="mt-6 text-center text-sm text-stone-600">
         É inquilino e ainda não tem acesso?{" "}
         <Link href="/cadastro" className="link">Cadastre-se</Link>
       </p>

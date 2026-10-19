@@ -435,3 +435,7 @@ create policy "storage: inquilino envia na própria pasta" on storage.objects
 drop policy if exists "storage: fotos públicas" on storage.objects;
 create policy "storage: fotos públicas" on storage.objects
   for select using (bucket_id = 'fotos');
+
+-- Vistoria das salas e data de assinatura do contrato: veja supabase/migracao_vistoria.sql
+-- (rode também aquele arquivo numa instalação nova).
+-- Salas anunciadas na página inicial: veja supabase/migracao_salas_disponiveis.sql

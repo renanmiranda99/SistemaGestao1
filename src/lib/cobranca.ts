@@ -1,10 +1,11 @@
-import { diffDias, hojeISO } from "./format";
+import { brl, dataBR, diffDias, hojeISO } from "./format";
 import type { Cobranca, Contrato } from "./types";
 
 export const DIAS_TOLERANCIA = Number(process.env.NEXT_PUBLIC_DIAS_TOLERANCIA_COBRANCA ?? 3);
 
 export type Situacao =
   | "paga"
+  | "paga_atraso" // paga depois do vencimento
   | "em_analise"
   | "a_vencer"
   | "vence_hoje"
@@ -16,8 +17,8 @@ export function diasDeAtraso(c: Pick<Cobranca, "vencimento">, hoje = hojeISO()) 
   return Math.max(0, diffDias(c.vencimento, hoje));
 }
 
-export function situacao(c: Pick<Cobranca, "status" | "vencimento">, hoje = hojeISO()): Situacao {
-  if (c.status === "pago") return "paga";
+export function situacao(c: Pick<Cobranca, "status" | "vencimento" | "pago_em">, hoje = hojeISO()): Situacao {
+  if (c.status === "pago") return c.pago_em && c.pago_em.slice(0, 10) > c.vencimento ? "paga_atraso" : "paga";
   if (c.status === "cancelado") return "cancelada";
   if (c.status === "em_analise") return "em_analise";
   const d = diffDias(c.vencimento, hoje);
@@ -28,7 +29,8 @@ export function situacao(c: Pick<Cobranca, "status" | "vencimento">, hoje = hoje
 }
 
 export const ROTULO_SITUACAO: Record<Situacao, string> = {
-  paga: "Paga",
+  paga: "Paga em dia",
+  paga_atraso: "Paga com atraso",
   em_analise: "Comprovante em análise",
   a_vencer: "A vencer",
   vence_hoje: "Vence hoje",
@@ -37,15 +39,79 @@ export const ROTULO_SITUACAO: Record<Situacao, string> = {
   cancelada: "Cancelada",
 };
 
+/** Cores do selo (badge) de cada situação. */
 export const COR_SITUACAO: Record<Situacao, string> = {
-  paga: "bg-emerald-100 text-emerald-800 ring-emerald-200",
-  em_analise: "bg-sky-100 text-sky-800 ring-sky-200",
-  a_vencer: "bg-slate-100 text-slate-700 ring-slate-200",
-  vence_hoje: "bg-amber-100 text-amber-800 ring-amber-200",
-  vencida: "bg-orange-100 text-orange-800 ring-orange-200",
-  em_cobranca: "bg-red-100 text-red-800 ring-red-200",
-  cancelada: "bg-slate-50 text-slate-400 ring-slate-200 line-through",
+  paga: "bg-[#dcefe3] text-[#14532d]",
+  paga_atraso: "bg-[#dcefe3] text-[#14532d] shadow-[inset_0_0_0_1.5px_#e07b2e]",
+  em_analise: "bg-[#ece6fb] text-[#5b21b6]",
+  a_vencer: "bg-stone-100 text-stone-700",
+  vence_hoje: "bg-[#fbefc9] text-[#5c4204]",
+  vencida: "bg-[#fce3cc] text-[#7a3306]",
+  em_cobranca: "bg-[#fbdad7] text-[#8a1c12]",
+  cancelada: "bg-stone-100 text-stone-500 line-through",
 };
+
+/** Cores do quadradinho da grade mês a mês (mais fortes que o selo). */
+export const COR_CELULA: Record<Situacao, string> = {
+  paga: "bg-[#2f7d55] text-white",
+  paga_atraso: "bg-[#cde8d7] text-[#14532d] shadow-[inset_0_0_0_2px_#e07b2e]",
+  em_analise: "bg-[#e6defa] text-[#5b21b6]",
+  a_vencer: "border-[1.5px] border-dashed border-stone-300 text-stone-600",
+  vence_hoje: "bg-[#f6d27a] text-[#4d3803]",
+  vencida: "bg-[#ef9b52] text-[#3d1c04]",
+  em_cobranca: "bg-[#b42318] text-white",
+  cancelada: "bg-stone-100 text-stone-400",
+};
+
+export const SIMBOLO_SITUACAO: Record<Situacao, string> = {
+  paga: "✓",
+  paga_atraso: "✓",
+  em_analise: "?",
+  a_vencer: "–",
+  vence_hoje: "!",
+  vencida: "!",
+  em_cobranca: "!",
+  cancelada: "×",
+};
+
+/**
+ * Texto do balão que aparece ao passar o mouse sobre uma cobrança:
+ * quando foi paga (e com quantos dias de atraso), ou quando vence/venceu.
+ */
+export function detalheSituacao(
+  c: Pick<Cobranca, "valor" | "vencimento" | "status" | "pago_em">,
+  contrato?: Pick<Contrato, "multa_percentual" | "juros_mensal_percentual"> | null,
+  hoje = hojeISO()
+) {
+  const s = situacao(c, hoje);
+  const venc = dataBR(c.vencimento);
+  const linhas = [ROTULO_SITUACAO[s]];
+  if (s === "paga" || s === "paga_atraso") {
+    const pago = c.pago_em ? c.pago_em.slice(0, 10) : null;
+    if (!pago) {
+      linhas.push(`Pago · vencimento ${venc}`);
+    } else if (s === "paga_atraso") {
+      const dias = diffDias(c.vencimento, pago);
+      const devido = valorAtualizado({ ...c, status: "pendente" }, contrato, pago);
+      linhas.push(`Pago em ${dataBR(pago)} · ${dias} dia(s) após o vencimento (${venc})`);
+      linhas.push(`${brl(devido.total)} com multa e juros na data do pagamento`);
+    } else {
+      const antes = diffDias(pago, c.vencimento);
+      linhas.push(`Pago em ${dataBR(pago)} · ${antes === 0 ? "no dia do vencimento" : `${antes} dia(s) antes do vencimento`}`);
+    }
+  } else if (s === "em_analise") {
+    linhas.push(`Comprovante aguardando aprovação · vencimento ${venc}`);
+  } else if (s === "a_vencer") {
+    linhas.push(`Vence em ${venc} · ${brl(c.valor)}`);
+  } else if (s === "vence_hoje") {
+    linhas.push(`Vence hoje · ${brl(c.valor)}`);
+  } else if (s === "vencida" || s === "em_cobranca") {
+    const v = valorAtualizado(c, contrato, hoje);
+    linhas.push(`Venceu em ${venc} · ${v.dias} dia(s) em atraso`);
+    linhas.push(`${brl(v.total)} atualizado com multa e juros`);
+  }
+  return linhas.join("\n");
+}
 
 /** Valor com multa e juros pro rata dia, conforme o contrato. */
 export function valorAtualizado(
