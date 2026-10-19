@@ -1,0 +1,120 @@
+export type Role = "admin" | "inquilino";
+
+export type Profile = {
+  id: string;
+  nome: string;
+  email: string;
+  telefone: string | null;
+  cpf_cnpj: string | null;
+  role: Role;
+  ativo: boolean;
+  created_at: string;
+};
+
+export type Sala = {
+  id: string;
+  nome: string;
+  andar: string | null;
+  area_m2: number | null;
+  descricao: string | null;
+  valor_aluguel: number | null;
+  inquilino_id: string | null;
+  created_at: string;
+};
+
+export type Foto = {
+  id: string;
+  sala_id: string | null;
+  storage_path: string;
+  legenda: string | null;
+  ordem: number;
+};
+
+export type Aviso = {
+  id: string;
+  titulo: string;
+  conteudo: string;
+  created_at: string;
+};
+
+export type Contrato = {
+  id: string;
+  inquilino_id: string;
+  sala_id: string | null;
+  data_inicio: string;
+  data_fim: string | null;
+  valor_mensal: number;
+  dia_vencimento: number;
+  multa_percentual: number;
+  juros_mensal_percentual: number;
+  arquivo_path: string | null;
+  ativo: boolean;
+  created_at: string;
+};
+
+export type Aditivo = {
+  id: string;
+  contrato_id: string;
+  titulo: string;
+  descricao: string | null;
+  data: string;
+  arquivo_path: string | null;
+};
+
+export type StatusCobranca = "pendente" | "em_analise" | "pago" | "cancelado";
+
+export type Cobranca = {
+  id: string;
+  contrato_id: string;
+  inquilino_id: string;
+  competencia: string;
+  vencimento: string;
+  valor: number;
+  status: StatusCobranca;
+  pago_em: string | null;
+  boleto_url: string | null;
+  linha_digitavel: string | null;
+  observacao: string | null;
+};
+
+export type Comprovante = {
+  id: string;
+  cobranca_id: string;
+  inquilino_id: string;
+  arquivo_path: string;
+  status: "em_analise" | "aprovado" | "rejeitado";
+  observacao_admin: string | null;
+  enviado_em: string;
+};
+
+export type Multa = {
+  id: string;
+  inquilino_id: string;
+  cobranca_id: string | null;
+  descricao: string;
+  valor: number;
+  data: string;
+  status: "pendente" | "paga" | "cancelada";
+};
+
+export type Chamado = {
+  id: string;
+  inquilino_id: string;
+  sala_id: string | null;
+  titulo: string;
+  descricao: string;
+  categoria: string;
+  prioridade: "baixa" | "media" | "alta";
+  status: "aberto" | "em_andamento" | "resolvido" | "fechado";
+  foto_path: string | null;
+  created_at: string;
+  updated_at: string;
+};
+
+export type ChamadoMensagem = {
+  id: string;
+  chamado_id: string;
+  autor_id: string;
+  mensagem: string;
+  created_at: string;
+};
