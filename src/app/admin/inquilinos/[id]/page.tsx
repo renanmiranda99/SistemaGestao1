@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { exigirPerfil, urlsAssinadas } from "@/lib/auth";
+import { getConfig } from "@/lib/config";
 import { dadosFinanceirosInquilino } from "@/lib/dados";
 import { detalheSituacao, ehPendente, situacao, valorAtualizado } from "@/lib/cobranca";
 import { brl, dataBR, dataHoraBR, hojeISO, mesAno, mesAnoLongo } from "@/lib/format";
@@ -21,7 +22,7 @@ import { BotaoConfirmar } from "@/components/BotaoConfirmar";
 import { UploadAditivo, UploadContrato } from "@/components/AdminUploads";
 
 export default async function AdminInquilino({ params }: { params: { id: string } }) {
-  const { supabase } = await exigirPerfil("admin");
+  const [{ supabase }, config] = await Promise.all([exigirPerfil("admin"), getConfig()]);
   const { data: p } = await supabase.from("profiles").select("*").eq("id", params.id).maybeSingle();
   if (!p) notFound();
   const inq = p as Profile;
@@ -157,8 +158,8 @@ export default async function AdminInquilino({ params }: { params: { id: string 
               <div><label className="label">Aluguel (R$)</label><input name="valor_mensal" required inputMode="decimal" placeholder="1500,00" className="input" /></div>
               <div><label className="label">Dia de vencimento</label><input name="dia_vencimento" type="number" min={1} max={28} required defaultValue={10} className="input" /></div>
               <div className="grid grid-cols-2 gap-2">
-                <div><label className="label">Multa %</label><input name="multa_percentual" defaultValue="2" className="input" /></div>
-                <div><label className="label">Juros % a.m.</label><input name="juros_mensal_percentual" defaultValue="1" className="input" /></div>
+                <div><label className="label">Multa %</label><input name="multa_percentual" defaultValue={String(config.multaPadrao).replace(".", ",")} className="input" /></div>
+                <div><label className="label">Juros % a.m.</label><input name="juros_mensal_percentual" defaultValue={String(config.jurosPadrao).replace(".", ",")} className="input" /></div>
               </div>
               <div className="sm:col-span-3">
                 <p className="mb-2 text-xs text-stone-600">As cobranças mensais desde o início do contrato até o mês atual são lançadas automaticamente. Depois anexe o PDF.</p>

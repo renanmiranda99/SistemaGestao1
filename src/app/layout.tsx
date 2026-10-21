@@ -1,13 +1,25 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { NOME_GALERIA } from "@/lib/galeria";
+import { getConfig } from "@/lib/config";
+import { CONFIG_PADRAO } from "@/lib/config-padrao";
+import { cssTema } from "@/lib/cores";
 
-export const metadata: Metadata = {
-  title: `${NOME_GALERIA} · Gestão`,
-  description: "Portal de inquilinos e administração da galeria",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const config = await getConfig();
+  // Logo enviada no painel vira o ícone da aba; sem ela, usa o ícone padrão recortado
+  const icone = config.logoMarcaUrl === CONFIG_PADRAO.logoMarcaUrl ? "/icon.png" : config.logoMarcaUrl;
+  return {
+    title: `${config.nome} · Gestão`,
+    description: `Portal de inquilinos e administração da ${config.nome}`,
+    icons: {
+      icon: icone,
+      apple: config.logoMarcaUrl === CONFIG_PADRAO.logoMarcaUrl ? "/apple-icon.png" : config.logoMarcaUrl,
+    },
+  };
+}
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const config = await getConfig();
   return (
     <html lang="pt-BR">
       <head>
@@ -18,6 +30,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@500&display=swap"
         />
+        {/* Cores escolhidas no painel de Configurações */}
+        <style dangerouslySetInnerHTML={{ __html: cssTema(config.corPrimaria, config.corMenu) }} />
       </head>
       <body>{children}</body>
     </html>

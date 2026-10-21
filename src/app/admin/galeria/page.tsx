@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { exigirPerfil, urlPublicaFoto, urlsAssinadas } from "@/lib/auth";
+import { getConfig } from "@/lib/config";
 import { brl, dataBR, diffDias, hojeISO } from "@/lib/format";
 import type { Aviso, Contrato, Foto, Profile, Sala, TipoVistoria, VistoriaFoto } from "@/lib/types";
 import { excluirAviso, excluirFotoVistoria, excluirSala, publicarAviso, salvarSala } from "../actions";
@@ -17,7 +18,7 @@ const TIPO_VISTORIA: Record<TipoVistoria, { r: string; cor: string }> = {
 };
 
 export default async function GaleriaAdmin({ searchParams }: { searchParams: { nova?: string } }) {
-  const { supabase } = await exigirPerfil("admin");
+  const [{ supabase }, config] = await Promise.all([exigirPerfil("admin"), getConfig()]);
   const hoje = hojeISO();
   const [{ data: s }, { data: f }, { data: a }, { data: p }, { data: c }, { data: v }] = await Promise.all([
     supabase.from("salas").select("*").order("nome"),
@@ -48,7 +49,7 @@ export default async function GaleriaAdmin({ searchParams }: { searchParams: { n
           <span className="btn-primary btn-sm">+ Cadastrar sala</span>
         </summary>
         <div className="mt-5 border-t border-stone-100 pt-5">
-          <NovaSala inquilinos={inquilinos} hoje={hoje} />
+          <NovaSala inquilinos={inquilinos} hoje={hoje} padroes={{ multa: config.multaPadrao, juros: config.jurosPadrao }} />
         </div>
       </details>
 

@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase/admin";
-import { DIAS_TOLERANCIA, valorAtualizado } from "@/lib/cobranca";
+import { getConfig } from "@/lib/config";
+import { diasTolerancia, valorAtualizado } from "@/lib/cobranca";
 import { diffDias, hojeISO } from "@/lib/format";
 import { apiWhatsAppConfigurada, enviarWhatsAppApi, mensagemCobranca } from "@/lib/whatsapp";
 import type { Cobranca, Contrato, Profile } from "@/lib/types";
@@ -20,6 +21,7 @@ export async function GET(request: Request) {
     return NextResponse.json({ erro: "não autorizado" }, { status: 401 });
   }
 
+  await getConfig(); // carrega dias de tolerância e texto da cobrança do painel
   const supabase = createAdminClient();
   const hoje = hojeISO();
   const intervalo = Math.max(1, Number(process.env.INTERVALO_REPETICAO_COBRANCA ?? 3));
@@ -40,7 +42,7 @@ export async function GET(request: Request) {
 
   for (const c of cobrancas) {
     const dias = diffDias(c.vencimento, hoje);
-    if (dias < DIAS_TOLERANCIA || (dias - DIAS_TOLERANCIA) % intervalo !== 0) continue;
+    if (dias < diasTolerancia() || (dias - diasTolerancia()) % intervalo !== 0) continue;
     const inq = perfil.get(c.inquilino_id);
     if (!inq?.telefone || !inq.ativo) continue;
     resultado.avaliadas++;

@@ -1,6 +1,7 @@
 import { cache } from "react";
 import { redirect } from "next/navigation";
 import { createClient } from "./supabase/server";
+import { getConfig } from "./config";
 import type { Profile, Role } from "./types";
 
 /**
@@ -11,7 +12,8 @@ import type { Profile, Role } from "./types";
  */
 export const getSessao = cache(async () => {
   const supabase = createClient();
-  const { data } = await supabase.auth.getClaims();
+  // Carrega as configurações junto (regras de cobrança usadas nos cálculos da página)
+  const [{ data }] = await Promise.all([supabase.auth.getClaims(), getConfig()]);
   const id = data?.claims?.sub;
   if (!id) return { supabase, user: null, perfil: null };
   const { data: perfil } = await supabase

@@ -22,7 +22,16 @@ function BotaoCadastrar() {
  * Formulário de nova sala, com fotos da sala. Com inquilino escolhido, já pede os dados
  * do contrato; com "Disponível para aluguel", a sala aparece na página inicial pública.
  */
-export function NovaSala({ inquilinos, hoje }: { inquilinos: InquilinoOpcao[]; hoje: string }) {
+export function NovaSala({
+  inquilinos,
+  hoje,
+  padroes,
+}: {
+  inquilinos: InquilinoOpcao[];
+  hoje: string;
+  /** Multa e juros padrão dos contratos (painel de Configurações) */
+  padroes: { multa: number; juros: number };
+}) {
   const [estado, acao] = useFormState(cadastrarSala, null);
   const [inquilino, setInquilino] = useState("");
   const [fotos, setFotos] = useState<{ arquivo: File; url: string }[]>([]);
@@ -162,11 +171,11 @@ export function NovaSala({ inquilinos, hoje }: { inquilinos: InquilinoOpcao[]; h
             </div>
             <div>
               <label className="label" htmlFor="ns-multa">Multa por atraso (%)</label>
-              <input id="ns-multa" name="multa_percentual" defaultValue="2" inputMode="decimal" className="input" />
+              <input id="ns-multa" name="multa_percentual" defaultValue={String(padroes.multa).replace(".", ",")} inputMode="decimal" className="input" />
             </div>
             <div>
               <label className="label" htmlFor="ns-juros">Juros ao mês (%)</label>
-              <input id="ns-juros" name="juros_mensal_percentual" defaultValue="1" inputMode="decimal" className="input" />
+              <input id="ns-juros" name="juros_mensal_percentual" defaultValue={String(padroes.juros).replace(".", ",")} inputMode="decimal" className="input" />
             </div>
           </div>
           <p className="text-[13px] text-stone-600">

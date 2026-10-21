@@ -1,9 +1,10 @@
 import { AppShell, type ItemMenu } from "@/components/AppShell";
+import { getConfig } from "@/lib/config";
 import { exigirPerfil } from "@/lib/auth";
 import { hojeISO } from "@/lib/format";
 
 export default async function InquilinoLayout({ children }: { children: React.ReactNode }) {
-  const { supabase, perfil } = await exigirPerfil("inquilino");
+  const [{ supabase, perfil }, config] = await Promise.all([exigirPerfil("inquilino"), getConfig()]);
   const [{ count: pendencias }, { data: salas }] = await Promise.all([
     supabase
       .from("cobrancas")
@@ -25,6 +26,7 @@ export default async function InquilinoLayout({ children }: { children: React.Re
 
   return (
     <AppShell
+      galeria={{ nome: config.nome, logo: config.logoMarcaUrl }}
       titulo="Portal do Inquilino"
       usuario={perfil.nome || perfil.email}
       perfil={salas?.length ? salas.map((s) => s.nome).join(", ") : "Inquilino"}

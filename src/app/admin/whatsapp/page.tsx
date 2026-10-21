@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { exigirPerfil } from "@/lib/auth";
 import { dadosAdmin } from "@/lib/dados-admin";
-import { detalheSituacao, DIAS_TOLERANCIA, ehPendente, situacao, valorAtualizado } from "@/lib/cobranca";
+import { detalheSituacao, diasTolerancia, ehPendente, situacao, valorAtualizado } from "@/lib/cobranca";
 import { brl, dataBR, dataHoraBR, hojeISO, mesAnoLongo } from "@/lib/format";
 import { apiWhatsAppConfigurada, mensagemCobranca } from "@/lib/whatsapp";
 import { Alerta, PageHeader, SituacaoBadge, Vazio } from "@/components/ui";
@@ -25,7 +25,7 @@ export default async function AdminWhatsApp({ searchParams }: { searchParams: { 
     <>
       <PageHeader
         titulo="WhatsApp"
-        descricao={`Cobranças em atraso. A cobrança começa no ${DIAS_TOLERANCIA}º dia após o vencimento.`}
+        descricao={`Cobranças em atraso. A cobrança começa no ${diasTolerancia()}º dia após o vencimento.`}
         acoes={
           api ? (
             <form action={cobrarTodosEmAtraso}>

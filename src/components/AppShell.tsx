@@ -4,9 +4,8 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { sair } from "@/app/actions";
-import { LOGO_MARCA, NOME_GALERIA } from "@/lib/galeria";
 
-export type Icone = "home" | "painel" |"inicio" | "inquilinos" | "pagamentos" | "whatsapp" | "chamados" | "galeria" | "multas" | "contratos";
+export type Icone = "home" | "configuracoes" | "painel" | "inicio" | "inquilinos" | "pagamentos" | "whatsapp" | "chamados" | "galeria" | "multas" | "contratos";
 
 export type ItemMenu = {
   href: string;
@@ -24,6 +23,12 @@ const COR_CONTADOR = {
 };
 
 const CAMINHOS: Record<Icone, React.ReactNode> = {
+  configuracoes: (
+    <>
+      <circle cx="12" cy="12" r="3" />
+      <path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z" />
+    </>
+  ),
   // Vitrine (página inicial pública)
   home: (
     <>
@@ -115,12 +120,15 @@ function iniciais(nome: string) {
 
 export function AppShell({
   titulo,
+  galeria,
   usuario,
   perfil,
   menu,
   children,
 }: {
   titulo: string;
+  /** Nome e logo da galeria, do painel de Configurações */
+  galeria: { nome: string; logo: string };
   usuario: string;
   perfil: string;
   menu: ItemMenu[];
@@ -147,12 +155,12 @@ export function AppShell({
   }, [aberto]);
 
   const marca = (
-    <Link href={raiz ?? "/"} className="flex min-w-0 items-center gap-3 px-2">
+    <Link href="/" title="Ir para a página inicial" className="flex min-w-0 items-center gap-3 rounded-[10px] px-2 hover:opacity-90">
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={LOGO_MARCA} alt="" width={36} height={36} className="h-9 w-9 shrink-0 rounded-[10px] ring-1 ring-white/25" />
+      <img src={galeria.logo} alt="" width={36} height={36} className="h-9 w-9 shrink-0 rounded-[10px] ring-1 ring-white/25" />
       <span className="min-w-0">
-        <span className="block truncate text-[15px] font-semibold text-white">{NOME_GALERIA}</span>
-        <span className="block truncate text-xs text-[#93a7c2]">{titulo}</span>
+        <span className="block truncate text-[15px] font-semibold text-white">{galeria.nome}</span>
+        <span className="block truncate text-xs text-white/60">{titulo}</span>
       </span>
     </Link>
   );
@@ -163,7 +171,7 @@ export function AppShell({
       <Link
         href="/"
         tabIndex={emGaveta && !aberto ? -1 : undefined}
-        className="mb-3 flex min-h-11 items-center gap-3 rounded-[10px] border border-[#2b4a70] px-3 text-sm font-medium text-[#c7d3e3] transition hover:bg-brand-800 hover:text-white"
+        className="mb-3 flex min-h-11 items-center gap-3 rounded-[10px] border border-white/15 px-3 text-sm font-medium text-white/80 transition hover:bg-brand-800 hover:text-white"
       >
         <Svg>{CAMINHOS.home}</Svg>
         <span className="flex-1">Home</span>
@@ -178,7 +186,7 @@ export function AppShell({
                 tabIndex={emGaveta && !aberto ? -1 : undefined}
                 aria-current={atual ? "page" : undefined}
                 className={`flex min-h-11 items-center gap-3 rounded-[10px] px-3 text-sm font-medium transition ${
-                  atual ? "bg-stone-50 text-brand-900" : "text-[#c7d3e3] hover:bg-brand-800 hover:text-white"
+                  atual ? "bg-stone-50 text-brand-900" : "text-white/80 hover:bg-brand-800 hover:text-white"
                 }`}
               >
                 <Svg>{CAMINHOS[item.icone]}</Svg>
@@ -206,11 +214,11 @@ export function AppShell({
       </span>
       <span className="min-w-0 flex-1">
         <span className="block truncate text-sm font-semibold text-white">{usuario}</span>
-        <span className="block truncate text-xs text-[#93a7c2]">{perfil}</span>
+        <span className="block truncate text-xs text-white/60">{perfil}</span>
       </span>
       <form action={sair}>
         <button
-          className="grid h-11 w-11 place-items-center rounded-[10px] text-[#c7d3e3] hover:bg-brand-900 hover:text-white"
+          className="grid h-11 w-11 place-items-center rounded-[10px] text-white/80 hover:bg-brand-900 hover:text-white"
           aria-label="Sair"
           title="Sair"
           tabIndex={emGaveta && !aberto ? -1 : undefined}
@@ -270,7 +278,7 @@ export function AppShell({
           {marca}
           <button
             type="button"
-            className="-mr-2 grid h-11 w-11 shrink-0 place-items-center rounded-[10px] text-[#c7d3e3] hover:bg-brand-800"
+            className="-mr-2 grid h-11 w-11 shrink-0 place-items-center rounded-[10px] text-white/80 hover:bg-brand-800"
             aria-label="Fechar menu"
             onClick={() => setAberto(false)}
             tabIndex={aberto ? 0 : -1}

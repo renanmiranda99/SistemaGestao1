@@ -9,17 +9,11 @@ const config: Config = {
         mono: ["Geist Mono", "ui-monospace", "SFMono-Regular", "monospace"],
       },
       colors: {
-        // Azul-marinho da identidade (menu lateral, botões, links)
-        brand: {
-          50: "#eef3fa",
-          100: "#dce7f5",
-          200: "#b9cde8",
-          500: "#2b5fa0",
-          600: "#1d4e89",
-          700: "#163c6b",
-          800: "#183558",
-          900: "#0f2540",
-        },
+        // Cores do tema, definidas no painel de Configurações (variáveis CSS geradas em src/lib/cores.ts).
+        // 50–700 vêm da cor principal (botões, links); 800–900 da cor do menu.
+        brand: Object.fromEntries(
+          [50, 100, 200, 500, 600, 700, 800, 900].map((n) => [n, `rgb(var(--brand-${n}) / <alpha-value>)`])
+        ),
         // Neutros frios do novo design (fundo, bordas, divisórias)
         stone: {
           50: "#f4f6f9",

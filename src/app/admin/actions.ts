@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { exigirPerfil } from "@/lib/auth";
+import { getConfig } from "@/lib/config";
 import { hojeISO } from "@/lib/format";
 import { apiWhatsAppConfigurada, enviarWhatsAppApi } from "@/lib/whatsapp";
 
@@ -34,7 +35,7 @@ export async function salvarInquilino(id: string, form: FormData) {
 
 // ---------------- Contratos ----------------
 export async function criarContrato(inquilinoId: string, form: FormData) {
-  const { supabase } = await exigirPerfil("admin");
+  const [{ supabase }, config] = await Promise.all([exigirPerfil("admin"), getConfig()]);
   const sala_id = opt(form, "sala_id");
   const { error } = await supabase.from("contratos").insert({
     inquilino_id: inquilinoId,
@@ -44,8 +45,8 @@ export async function criarContrato(inquilinoId: string, form: FormData) {
     data_fim: opt(form, "data_fim"),
     valor_mensal: num(form, "valor_mensal"),
     dia_vencimento: num(form, "dia_vencimento"),
-    multa_percentual: num(form, "multa_percentual") ?? 2,
-    juros_mensal_percentual: num(form, "juros_mensal_percentual") ?? 1,
+    multa_percentual: num(form, "multa_percentual") ?? config.multaPadrao,
+    juros_mensal_percentual: num(form, "juros_mensal_percentual") ?? config.jurosPadrao,
   });
   if (error) throw new Error(error.message);
   if (sala_id) await supabase.from("salas").update({ inquilino_id: inquilinoId, disponivel_aluguel: false }).eq("id", sala_id);
@@ -210,7 +211,7 @@ export async function cadastrarSala(
   _: { erro?: string; id?: string } | null,
   form: FormData
 ): Promise<{ erro?: string; id?: string } | null> {
-  const { supabase } = await exigirPerfil("admin");
+  const [{ supabase }, config] = await Promise.all([exigirPerfil("admin"), getConfig()]);
   const { inquilino_id, disponivel_aluguel } = ocupacao(form);
   const valorAluguel = num(form, "valor_aluguel");
 
@@ -221,8 +222,8 @@ export async function cadastrarSala(
         data_fim: opt(form, "data_fim"),
         valor_mensal: valorAluguel,
         dia_vencimento: num(form, "dia_vencimento"),
-        multa_percentual: num(form, "multa_percentual") ?? 2,
-        juros_mensal_percentual: num(form, "juros_mensal_percentual") ?? 1,
+        multa_percentual: num(form, "multa_percentual") ?? config.multaPadrao,
+        juros_mensal_percentual: num(form, "juros_mensal_percentual") ?? config.jurosPadrao,
       }
     : null;
   if (contrato) {

@@ -4,6 +4,15 @@
 
 :root {
   color-scheme: light;
+  /* Cores padrão do tema; o layout sobrescreve com as do painel de Configurações */
+  --brand-50: 238 243 250;
+  --brand-100: 220 231 245;
+  --brand-200: 185 205 232;
+  --brand-500: 43 95 160;
+  --brand-600: 29 78 137;
+  --brand-700: 22 59 103;
+  --brand-800: 24 53 88;
+  --brand-900: 15 37 64;
 }
 
 body {

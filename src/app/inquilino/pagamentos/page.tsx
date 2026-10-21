@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { exigirPerfil, urlsAssinadas } from "@/lib/auth";
 import { dadosFinanceirosInquilino } from "@/lib/dados";
-import { DIAS_TOLERANCIA, detalheSituacao, situacao, valorAtualizado } from "@/lib/cobranca";
+import { detalheSituacao, diasTolerancia, situacao, valorAtualizado } from "@/lib/cobranca";
 import { brl, dataBR, dataHoraBR, diffDias, hojeISO, mesAnoLongo, nomeMesCurto } from "@/lib/format";
 import type { Cobranca, Comprovante } from "@/lib/types";
 import { Alerta, CelulaSituacao, PageHeader, SituacaoBadge, StatusBadge, Vazio } from "@/components/ui";
@@ -134,7 +134,7 @@ export default async function PagamentosInquilino() {
       ))}
 
       <p className="text-[13px] text-stone-600">
-        Após o vencimento incidem multa e juros conforme o contrato. A partir do {DIAS_TOLERANCIA}º dia de atraso o boleto
+        Após o vencimento incidem multa e juros conforme o contrato. A partir do {diasTolerancia()}º dia de atraso o boleto
         entra em cobrança e você recebe avisos pelo WhatsApp.
       </p>
     </>
@@ -189,7 +189,7 @@ function BoletoEmDestaque({
     sit === "vencida" || sit === "em_cobranca" ? `Vencido há ${dias} dia(s)` : sit === "vence_hoje" ? "Vence hoje" : `Vence em ${-dias} dia(s)`;
   const corSelo =
     sit === "em_cobranca" ? "bg-[#fbdad7] text-[#8a1c12]" : sit === "vencida" ? "bg-[#fce3cc] text-[#7a3306]" : sit === "vence_hoje" ? "bg-[#fbefc9] text-[#5c4204]" : "bg-stone-100 text-stone-700";
-  const diaCobranca = new Date(Date.parse(`${c.vencimento}T12:00:00Z`) + DIAS_TOLERANCIA * 86_400_000).toISOString().slice(0, 10);
+  const diaCobranca = new Date(Date.parse(`${c.vencimento}T12:00:00Z`) + diasTolerancia() * 86_400_000).toISOString().slice(0, 10);
   const emAnalise = comprovantes.some((m) => m.status === "em_analise");
 
   return (

@@ -1,7 +1,10 @@
 import { brl, dataBR, diffDias, hojeISO } from "./format";
 import type { Cobranca, Contrato } from "./types";
 
-export const DIAS_TOLERANCIA = Number(process.env.NEXT_PUBLIC_DIAS_TOLERANCIA_COBRANCA ?? 3);
+import { diasTolerancia } from "./regras";
+
+/** Dias após o vencimento para entrar em cobrança (definido no painel de Configurações). */
+export { diasTolerancia };
 
 export type Situacao =
   | "paga"
@@ -24,7 +27,7 @@ export function situacao(c: Pick<Cobranca, "status" | "vencimento" | "pago_em">,
   const d = diffDias(c.vencimento, hoje);
   if (d < 0) return "a_vencer";
   if (d === 0) return "vence_hoje";
-  if (d < DIAS_TOLERANCIA) return "vencida";
+  if (d < diasTolerancia()) return "vencida";
   return "em_cobranca";
 }
 

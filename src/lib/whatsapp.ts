@@ -1,4 +1,6 @@
 import { brl, dataBR, mesAnoLongo, somenteDigitos } from "./format";
+import { preencher } from "./config-padrao";
+import { modeloMensagemCobranca } from "./regras";
 
 /** Normaliza para o formato internacional brasileiro: 55 + DDD + número. */
 export function telefoneWhatsApp(telefone: string | null | undefined) {
@@ -21,15 +23,16 @@ export function mensagemCobranca(p: {
   valor: number;
   dias: number;
 }) {
-  const primeiroNome = p.nome.split(" ")[0] || p.nome;
-  return (
-    `Olá, ${primeiroNome}! Tudo bem?\n\n` +
-    `Identificamos que o aluguel referente a ${mesAnoLongo(p.competencia)}, ` +
-    `com vencimento em ${dataBR(p.vencimento)}, no valor de ${brl(p.valor)}, ` +
-    `está em aberto há ${p.dias} dia(s).\n\n` +
-    `Se já realizou o pagamento, por favor envie o comprovante pelo portal do inquilino. ` +
-    `Qualquer dúvida, estamos à disposição.`
-  );
+  // O texto vem do painel de Configurações, com {nome}, {mes}, {vencimento}, {valor}, {dias} e {galeria}
+  const { modelo, nome: galeria } = modeloMensagemCobranca();
+  return preencher(modelo, {
+    nome: p.nome.split(" ")[0] || p.nome,
+    mes: mesAnoLongo(p.competencia),
+    vencimento: dataBR(p.vencimento),
+    valor: brl(p.valor),
+    dias: p.dias,
+    galeria,
+  });
 }
 
 export function apiWhatsAppConfigurada() {

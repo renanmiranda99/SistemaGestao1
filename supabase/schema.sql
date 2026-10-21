@@ -439,3 +439,4 @@ create policy "storage: fotos públicas" on storage.objects
 -- Vistoria das salas e data de assinatura do contrato: veja supabase/migracao_vistoria.sql
 -- (rode também aquele arquivo numa instalação nova).
 -- Salas anunciadas na página inicial: veja supabase/migracao_salas_disponiveis.sql
+-- Painel de configurações (nome, logos, cores, textos, mapa, regras): veja supabase/migracao_configuracoes.sql
