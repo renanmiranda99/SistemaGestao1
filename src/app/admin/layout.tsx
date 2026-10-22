@@ -12,6 +12,8 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   const menu: ItemMenu[] = [
     { href: "/admin", rotulo: "Painel", icone: "painel" },
     { href: "/admin/inquilinos", rotulo: "Inquilinos", icone: "inquilinos" },
+    { href: "/admin/contratos", rotulo: "Contratos", icone: "contratos" },
+    { href: "/admin/acordos", rotulo: "Acordos judiciais", icone: "acordos" },
     { href: "/admin/pagamentos", rotulo: "Pagamentos", icone: "pagamentos", contador: comprovantes ?? 0, corContador: "analise" },
     { href: "/admin/whatsapp", rotulo: "WhatsApp", icone: "whatsapp" },
     { href: "/admin/chamados", rotulo: "Chamados", icone: "chamados", contador: chamados ?? 0, corContador: "aviso" },

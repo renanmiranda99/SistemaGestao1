@@ -43,6 +43,7 @@ export default async function ContratosInquilino() {
                     <div><dt className="text-stone-600">Assinatura</dt><dd className="font-medium">{dataBR(c.data_assinatura)}</dd></div>
                     <div><dt className="text-stone-600">Aluguel</dt><dd className="font-medium">{brl(c.valor_mensal)}</dd></div>
                     <div><dt className="text-stone-600">Vencimento da mensalidade</dt><dd className="font-medium">Todo dia {c.dia_vencimento}</dd></div>
+                    {c.fiador_nome && <div className="col-span-2"><dt className="text-stone-600">Fiador</dt><dd className="font-medium">{[c.fiador_nome, c.fiador_cpf].filter(Boolean).join(" · ")}</dd></div>}
                     <div><dt className="text-stone-600">Multa por atraso</dt><dd className="font-medium">{Number(c.multa_percentual)}%</dd></div>
                     <div><dt className="text-stone-600">Juros</dt><dd className="font-medium">{Number(c.juros_mensal_percentual)}% ao mês</dd></div>
                   </dl>

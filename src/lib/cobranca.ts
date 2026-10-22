@@ -9,6 +9,7 @@ export { diasTolerancia };
 export type Situacao =
   | "paga"
   | "paga_atraso" // paga depois do vencimento
+  | "paga_acordo" // quitada por acordo judicial
   | "em_analise"
   | "a_vencer"
   | "vence_hoje"
@@ -20,7 +21,11 @@ export function diasDeAtraso(c: Pick<Cobranca, "vencimento">, hoje = hojeISO()) 
   return Math.max(0, diffDias(c.vencimento, hoje));
 }
 
-export function situacao(c: Pick<Cobranca, "status" | "vencimento" | "pago_em">, hoje = hojeISO()): Situacao {
+export function situacao(
+  c: Pick<Cobranca, "status" | "vencimento" | "pago_em"> & { acordo_id?: string | null },
+  hoje = hojeISO()
+): Situacao {
+  if (c.status === "pago" && c.acordo_id) return "paga_acordo";
   if (c.status === "pago") return c.pago_em && c.pago_em.slice(0, 10) > c.vencimento ? "paga_atraso" : "paga";
   if (c.status === "cancelado") return "cancelada";
   if (c.status === "em_analise") return "em_analise";
@@ -34,6 +39,7 @@ export function situacao(c: Pick<Cobranca, "status" | "vencimento" | "pago_em">,
 export const ROTULO_SITUACAO: Record<Situacao, string> = {
   paga: "Paga em dia",
   paga_atraso: "Paga com atraso",
+  paga_acordo: "Quitada por acordo",
   em_analise: "Comprovante em análise",
   a_vencer: "A vencer",
   vence_hoje: "Vence hoje",
@@ -46,6 +52,7 @@ export const ROTULO_SITUACAO: Record<Situacao, string> = {
 export const COR_SITUACAO: Record<Situacao, string> = {
   paga: "bg-[#dcefe3] text-[#14532d]",
   paga_atraso: "bg-[#dcefe3] text-[#14532d] shadow-[inset_0_0_0_1.5px_#e07b2e]",
+  paga_acordo: "bg-[#d9eef0] text-[#0f4c55]",
   em_analise: "bg-[#ece6fb] text-[#5b21b6]",
   a_vencer: "bg-stone-100 text-stone-700",
   vence_hoje: "bg-[#fbefc9] text-[#5c4204]",
@@ -58,6 +65,7 @@ export const COR_SITUACAO: Record<Situacao, string> = {
 export const COR_CELULA: Record<Situacao, string> = {
   paga: "bg-[#2f7d55] text-white",
   paga_atraso: "bg-[#cde8d7] text-[#14532d] shadow-[inset_0_0_0_2px_#e07b2e]",
+  paga_acordo: "bg-[#1f6f7a] text-white",
   em_analise: "bg-[#e6defa] text-[#5b21b6]",
   a_vencer: "border-[1.5px] border-dashed border-stone-300 text-stone-600",
   vence_hoje: "bg-[#f6d27a] text-[#4d3803]",
@@ -69,6 +77,7 @@ export const COR_CELULA: Record<Situacao, string> = {
 export const SIMBOLO_SITUACAO: Record<Situacao, string> = {
   paga: "✓",
   paga_atraso: "✓",
+  paga_acordo: "§",
   em_analise: "?",
   a_vencer: "–",
   vence_hoje: "!",
@@ -82,14 +91,17 @@ export const SIMBOLO_SITUACAO: Record<Situacao, string> = {
  * quando foi paga (e com quantos dias de atraso), ou quando vence/venceu.
  */
 export function detalheSituacao(
-  c: Pick<Cobranca, "valor" | "vencimento" | "status" | "pago_em">,
+  c: Pick<Cobranca, "valor" | "vencimento" | "status" | "pago_em"> & { acordo_id?: string | null },
   contrato?: Pick<Contrato, "multa_percentual" | "juros_mensal_percentual"> | null,
   hoje = hojeISO()
 ) {
   const s = situacao(c, hoje);
   const venc = dataBR(c.vencimento);
   const linhas = [ROTULO_SITUACAO[s]];
-  if (s === "paga" || s === "paga_atraso") {
+  if (s === "paga_acordo") {
+    linhas.push(`Acordo judicial${c.pago_em ? ` de ${dataBR(c.pago_em.slice(0, 10))}` : ""} · vencimento ${venc}`);
+    linhas.push(`Conta como paga · ${brl(c.valor)}`);
+  } else if (s === "paga" || s === "paga_atraso") {
     const pago = c.pago_em ? c.pago_em.slice(0, 10) : null;
     if (!pago) {
       linhas.push(`Pago · vencimento ${venc}`);

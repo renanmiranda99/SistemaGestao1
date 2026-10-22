@@ -13,6 +13,18 @@ const num = (f: FormData, k: string) => {
 };
 const opt = (f: FormData, k: string) => txt(f, k) || null;
 
+/** Dados do fiador vindos dos formulários de contrato (só quando o formulário tem esses campos). */
+const fiador = (f: FormData) =>
+  f.has("fiador_nome")
+    ? {
+        fiador_nome: opt(f, "fiador_nome"),
+        fiador_cpf: opt(f, "fiador_cpf"),
+        fiador_telefone: opt(f, "fiador_telefone"),
+        fiador_email: opt(f, "fiador_email"),
+        fiador_endereco: opt(f, "fiador_endereco"),
+      }
+    : {};
+
 function atualizar(...paths: string[]) {
   paths.forEach((p) => revalidatePath(p));
   revalidatePath("/admin", "layout");
@@ -37,18 +49,28 @@ export async function salvarInquilino(id: string, form: FormData) {
 export async function criarContrato(inquilinoId: string, form: FormData) {
   const [{ supabase }, config] = await Promise.all([exigirPerfil("admin"), getConfig()]);
   const sala_id = opt(form, "sala_id");
-  const { error } = await supabase.from("contratos").insert({
+  const { data: novo, error } = await supabase.from("contratos").insert({
     inquilino_id: inquilinoId,
     sala_id,
     data_assinatura: opt(form, "data_assinatura"),
+    ...fiador(form),
     data_inicio: txt(form, "data_inicio"),
     data_fim: opt(form, "data_fim"),
     valor_mensal: num(form, "valor_mensal"),
     dia_vencimento: num(form, "dia_vencimento"),
     multa_percentual: num(form, "multa_percentual") ?? config.multaPadrao,
     juros_mensal_percentual: num(form, "juros_mensal_percentual") ?? config.jurosPadrao,
-  });
-  if (error) throw new Error(error.message);
+  }).select("id").single();
+  if (error || !novo) throw new Error(error?.message ?? "Não foi possível criar o contrato.");
+
+  // Contrato lido automaticamente: move o PDF de "importados/" para a pasta do inquilino e anexa
+  const importado = txt(form, "arquivo_importado");
+  if (/^importados\/[\w.-]+$/.test(importado)) {
+    const destino = `${inquilinoId}/contratos/${importado.slice("importados/".length)}`;
+    const { error: erroMover } = await supabase.storage.from("contratos").move(importado, destino);
+    if (!erroMover) await supabase.from("contratos").update({ arquivo_path: destino }).eq("id", novo.id);
+  }
+
   if (sala_id) await supabase.from("salas").update({ inquilino_id: inquilinoId, disponivel_aluguel: false }).eq("id", sala_id);
   // Já lança as cobranças desde o início do contrato até o mês atual
   await gerarRetroativas(inquilinoId);
@@ -101,6 +123,45 @@ export async function criarAditivo(contratoId: string, inquilinoId: string, form
   atualizar(`/admin/inquilinos/${inquilinoId}`);
 }
 
+/** Novo contrato a partir da tela Contratos (o inquilino vem do formulário). */
+export async function criarContratoGeral(form: FormData) {
+  const inquilinoId = txt(form, "inquilino_id");
+  if (!inquilinoId) throw new Error("Escolha o inquilino do contrato.");
+  await criarContrato(inquilinoId, form);
+  atualizar("/admin/contratos");
+}
+
+/**
+ * Corrige os dados de um contrato. Mudar valor ou dia de vencimento vale para as
+ * próximas mensalidades geradas; as já lançadas se ajustam em Pagamentos → Boleto.
+ */
+export async function atualizarContrato(contratoId: string, form: FormData) {
+  const { supabase } = await exigirPerfil("admin");
+  const dia = num(form, "dia_vencimento");
+  await supabase
+    .from("contratos")
+    .update({
+      data_assinatura: opt(form, "data_assinatura"),
+      ...fiador(form),
+      data_inicio: txt(form, "data_inicio") || undefined,
+      data_fim: opt(form, "data_fim"),
+      valor_mensal: num(form, "valor_mensal") ?? undefined,
+      dia_vencimento: dia && dia >= 1 && dia <= 28 ? dia : undefined,
+      multa_percentual: num(form, "multa_percentual") ?? undefined,
+      juros_mensal_percentual: num(form, "juros_mensal_percentual") ?? undefined,
+    })
+    .eq("id", contratoId);
+  atualizar("/admin/contratos");
+}
+
+export async function excluirAditivo(aditivoId: string) {
+  const { supabase } = await exigirPerfil("admin");
+  const { data: a } = await supabase.from("aditivos").select("arquivo_path").eq("id", aditivoId).single();
+  if (a?.arquivo_path) await supabase.storage.from("contratos").remove([a.arquivo_path]);
+  await supabase.from("aditivos").delete().eq("id", aditivoId);
+  atualizar("/admin/contratos");
+}
+
 export async function anexarArquivoAditivo(aditivoId: string, path: string) {
   const { supabase } = await exigirPerfil("admin");
   const { error } = await supabase.from("aditivos").update({ arquivo_path: path }).eq("id", aditivoId);
@@ -135,7 +196,8 @@ export async function marcarCobranca(id: string, status: "pago" | "pendente" | "
   const { supabase } = await exigirPerfil("admin");
   await supabase
     .from("cobrancas")
-    .update({ status, pago_em: status === "pago" ? hojeISO() : null })
+    // Reabrir ou cancelar desfaz o vínculo com um acordo judicial, se houver
+    .update({ status, pago_em: status === "pago" ? hojeISO() : null, ...(status !== "pago" ? { acordo_id: null } : {}) })
     .eq("id", id);
   atualizar("/admin/pagamentos");
 }
@@ -218,6 +280,7 @@ export async function cadastrarSala(
   const contrato = inquilino_id
     ? {
         data_assinatura: opt(form, "data_assinatura"),
+        ...fiador(form),
         data_inicio: opt(form, "data_inicio"),
         data_fim: opt(form, "data_fim"),
         valor_mensal: valorAluguel,

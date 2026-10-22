@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { cadastrarSala, excluirFoto, registrarFoto, registrarFotoVistoria, reordenarFotos } from "@/app/admin/actions";
 import { createClient } from "@/lib/supabase/client";
 import { nomeSeguro, TAMANHO_MAXIMO } from "@/lib/arquivos";
+import { CamposFiador } from "./CamposFiador";
 
 type InquilinoOpcao = { id: string; nome: string; email: string };
 
@@ -178,6 +179,7 @@ export function NovaSala({
               <input id="ns-juros" name="juros_mensal_percentual" defaultValue={String(padroes.juros).replace(".", ",")} inputMode="decimal" className="input" />
             </div>
           </div>
+          <CamposFiador prefixo="ns" />
           <p className="text-[13px] text-stone-600">
             As mensalidades desde o início do contrato são lançadas automaticamente. Depois de cadastrar, anexe o PDF do contrato assinado e as fotos da vistoria.
           </p>

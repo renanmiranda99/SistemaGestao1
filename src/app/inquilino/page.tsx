@@ -6,7 +6,7 @@ import { brl, dataBR, diffDias, hojeISO, mesAnoLongo, nomeMesCurto } from "@/lib
 import type { Aviso, Chamado } from "@/lib/types";
 import { Dica, LegendaSituacoes, PageHeader, Stat, StatusBadge, Vazio } from "@/components/ui";
 
-const LEGENDA: Situacao[] = ["paga", "paga_atraso", "em_analise", "vencida", "em_cobranca", "a_vencer"];
+const LEGENDA: Situacao[] = ["paga", "paga_atraso", "paga_acordo", "em_analise", "vencida", "em_cobranca", "a_vencer"];
 
 export default async function InquilinoInicio() {
   const { supabase, perfil } = await exigirPerfil("inquilino");

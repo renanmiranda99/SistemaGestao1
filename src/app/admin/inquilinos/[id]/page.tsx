@@ -20,6 +20,7 @@ import { PageHeader, SituacaoBadge, StatusBadge, Vazio } from "@/components/ui";
 import { BotaoWhatsApp } from "@/components/BotaoWhatsApp";
 import { BotaoConfirmar } from "@/components/BotaoConfirmar";
 import { UploadAditivo, UploadContrato } from "@/components/AdminUploads";
+import { CamposFiador, resumoFiador } from "@/components/CamposFiador";
 
 export default async function AdminInquilino({ params }: { params: { id: string } }) {
   const [{ supabase }, config] = await Promise.all([exigirPerfil("admin"), getConfig()]);
@@ -101,6 +102,7 @@ export default async function AdminInquilino({ params }: { params: { id: string 
                     <div className="text-stone-600">
                       {c.data_assinatura && <>Assinado em {dataBR(c.data_assinatura)} · </>}Vigência {dataBR(c.data_inicio)} a {dataBR(c.data_fim)} · multa {Number(c.multa_percentual)}% · juros {Number(c.juros_mensal_percentual)}% a.m.
                     </div>
+                    {resumoFiador(c) && <div className="text-stone-600">Fiador: {resumoFiador(c)}</div>}
                   </div>
                   <div className="flex flex-wrap gap-2">
                     {c.arquivo_path && urls[c.arquivo_path] && (
@@ -161,6 +163,7 @@ export default async function AdminInquilino({ params }: { params: { id: string 
                 <div><label className="label">Multa %</label><input name="multa_percentual" defaultValue={String(config.multaPadrao).replace(".", ",")} className="input" /></div>
                 <div><label className="label">Juros % a.m.</label><input name="juros_mensal_percentual" defaultValue={String(config.jurosPadrao).replace(".", ",")} className="input" /></div>
               </div>
+              <div className="sm:col-span-3"><CamposFiador prefixo="ni" /></div>
               <div className="sm:col-span-3">
                 <p className="mb-2 text-xs text-stone-600">As cobranças mensais desde o início do contrato até o mês atual são lançadas automaticamente. Depois anexe o PDF.</p>
                 <button className="btn-primary">Criar contrato</button>

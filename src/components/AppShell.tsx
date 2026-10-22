@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { sair } from "@/app/actions";
 
-export type Icone = "home" | "configuracoes" | "painel" | "inicio" | "inquilinos" | "pagamentos" | "whatsapp" | "chamados" | "galeria" | "multas" | "contratos";
+export type Icone = "home" | "configuracoes" | "acordos" | "painel" | "inicio" | "inquilinos" | "pagamentos" | "whatsapp" | "chamados" | "galeria" | "multas" | "contratos";
 
 export type ItemMenu = {
   href: string;
@@ -23,6 +23,16 @@ const COR_CONTADOR = {
 };
 
 const CAMINHOS: Record<Icone, React.ReactNode> = {
+  // Balança da justiça
+  acordos: (
+    <>
+      <path d="M12 3v18" />
+      <path d="M7 21h10" />
+      <path d="M5 7h14" />
+      <path d="M5 7l-3 7a3 3 0 0 0 6 0z" />
+      <path d="M19 7l-3 7a3 3 0 0 0 6 0z" />
+    </>
+  ),
   configuracoes: (
     <>
       <circle cx="12" cy="12" r="3" />

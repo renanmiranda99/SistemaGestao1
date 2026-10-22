@@ -32,7 +32,22 @@ export type Foto = {
   ordem: number;
 };
 
-export type TipoVistoria = "entrada" | "saida" | "dano";
+/** Acordo feito na justiça; as mensalidades que ele quita contam como pagas. */
+export type AcordoJudicial = {
+  id: string;
+  inquilino_id: string;
+  contrato_id: string | null;
+  numero_processo: string | null;
+  orgao: string | null;
+  data_acordo: string;
+  valor_acordado: number;
+  condicoes: string | null;
+  observacoes: string | null;
+  arquivo_path: string | null;
+  created_at: string;
+};
+
+export type TipoVistoria ="entrada" | "saida" | "dano";
 
 /** Foto da vistoria de uma sala (prova do estado do imóvel para cobrança de danos). */
 export type VistoriaFoto = {
@@ -58,6 +73,11 @@ export type Contrato = {
   sala_id: string | null;
   data_assinatura: string | null;
   data_inicio: string;
+  fiador_nome?: string | null;
+  fiador_cpf?: string | null;
+  fiador_telefone?: string | null;
+  fiador_email?: string | null;
+  fiador_endereco?: string | null;
   data_fim: string | null;
   valor_mensal: number;
   dia_vencimento: number;
@@ -88,6 +108,8 @@ export type Cobranca = {
   valor: number;
   status: StatusCobranca;
   pago_em: string | null;
+  /** Preenchido quando a mensalidade foi quitada por um acordo judicial */
+  acordo_id?: string | null;
   boleto_url: string | null;
   linha_digitavel: string | null;
   observacao: string | null;

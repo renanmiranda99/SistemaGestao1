@@ -8,7 +8,7 @@ import { gerarCobrancasMes } from "./actions";
 import { CelulaSituacao, LegendaSituacoes, PageHeader, Stat, Vazio } from "@/components/ui";
 import { BotaoConfirmar } from "@/components/BotaoConfirmar";
 
-const LEGENDA: Situacao[] = ["paga", "paga_atraso", "em_analise", "a_vencer", "vence_hoje", "vencida", "em_cobranca"];
+const LEGENDA: Situacao[] = ["paga", "paga_atraso", "paga_acordo", "em_analise", "a_vencer", "vence_hoje", "vencida", "em_cobranca"];
 const FILTROS = [
   { v: "todos", r: "Todos" },
   { v: "atraso", r: "Em atraso" },

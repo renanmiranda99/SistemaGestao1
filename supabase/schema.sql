@@ -440,3 +440,5 @@ create policy "storage: fotos públicas" on storage.objects
 -- (rode também aquele arquivo numa instalação nova).
 -- Salas anunciadas na página inicial: veja supabase/migracao_salas_disponiveis.sql
 -- Painel de configurações (nome, logos, cores, textos, mapa, regras): veja supabase/migracao_configuracoes.sql
+-- Acordos judiciais (quitam mensalidades): veja supabase/migracao_acordos.sql
+-- Fiador do contrato: veja supabase/migracao_fiador.sql

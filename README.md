@@ -80,6 +80,9 @@ Na Vercel, o `vercel.json` já agenda a rota todo dia às 9h (horário de Fortal
 curl -H "Authorization: Bearer SEU_CRON_SECRET" https://seu-dominio/api/cron/cobrancas
 ```
 
+## Leitura automática de contratos (opcional)
+Em **Contratos → Novo contrato**, o botão "Ler contrato em PDF" preenche o formulário a partir do contrato assinado. Precisa da variável `ANTHROPIC_API_KEY`. Passo a passo em [docs/leitura-automatica-contratos.md](docs/leitura-automatica-contratos.md).
+
 ## Estrutura
 ```
 supabase/schema.sql        tabelas, regras de segurança (RLS), buckets de arquivos
