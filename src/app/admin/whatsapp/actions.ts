@@ -18,7 +18,7 @@ export async function cobrarTodosEmAtraso() {
 
   for (const c of cobrancas.filter((x) => situacao(x, hoje) === "em_cobranca")) {
     const inq = inquilinoDe(c.inquilino_id);
-    if (!inq?.telefone || !inq.ativo) continue;
+    if (!inq?.telefone || !inq.ativo || inq.whatsapp_ativo === false) continue;
     const v = valorAtualizado(c, contratoDe(c), hoje);
     const mensagem = mensagemCobranca({ nome: inq.nome, competencia: c.competencia, vencimento: c.vencimento, valor: v.total, dias: v.dias });
     const r = await enviarWhatsAppApi(inq.telefone, mensagem);

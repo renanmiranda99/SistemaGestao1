@@ -44,7 +44,7 @@ export async function GET(request: Request) {
     const dias = diffDias(c.vencimento, hoje);
     if (dias < diasTolerancia() || (dias - diasTolerancia()) % intervalo !== 0) continue;
     const inq = perfil.get(c.inquilino_id);
-    if (!inq?.telefone || !inq.ativo) continue;
+    if (!inq?.telefone || !inq.ativo || inq.whatsapp_ativo === false) continue;
     resultado.avaliadas++;
 
     // Evita duplicar no mesmo dia

@@ -403,6 +403,19 @@ export async function excluirAviso(id: string) {
 }
 
 // ---------------- WhatsApp ----------------
+/** Liga ou desliga o envio de mensagens de WhatsApp para um inquilino. */
+export async function alternarWhatsApp(inquilinoId: string, ativo: boolean) {
+  const { supabase } = await exigirPerfil("admin");
+  const { error } = await supabase.from("profiles").update({ whatsapp_ativo: ativo }).eq("id", inquilinoId);
+  if (error) {
+    return error.code === "PGRST204" || error.code === "42703"
+      ? "Rode supabase/migracao_whatsapp_usuario.sql no Supabase para usar esta opção."
+      : `Não foi possível alterar: ${error.message}`;
+  }
+  atualizar("/admin/inquilinos", `/admin/inquilinos/${inquilinoId}`, "/admin/whatsapp");
+  return null;
+}
+
 export async function enviarWhatsApp(p: {
   inquilinoId: string;
   cobrancaId?: string | null;
@@ -410,6 +423,10 @@ export async function enviarWhatsApp(p: {
   mensagem: string;
 }): Promise<{ via: "api" | "link"; ok: boolean; erro?: string }> {
   const { supabase, perfil } = await exigirPerfil("admin");
+  const { data: destino } = await supabase.from("profiles").select("*").eq("id", p.inquilinoId).single();
+  if (destino?.whatsapp_ativo === false) {
+    return { via: "link", ok: false, erro: "O WhatsApp está desligado para este inquilino." };
+  }
   let via: "api" | "link" = "link";
   let ok = true;
   let erro: string | undefined;

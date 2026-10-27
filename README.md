@@ -80,6 +80,9 @@ Na Vercel, o `vercel.json` já agenda a rota todo dia às 9h (horário de Fortal
 curl -H "Authorization: Bearer SEU_CRON_SECRET" https://seu-dominio/api/cron/cobrancas
 ```
 
+## Esqueci a senha
+Na tela de login, "Esqueci a senha" envia um link de redefinição para o e-mail cadastrado. Configure os endereços permitidos e o modelo de e-mail no Supabase: [docs/esqueci-senha.md](docs/esqueci-senha.md).
+
 ## Leitura automática de contratos (opcional)
 Em **Contratos → Novo contrato**, o botão "Ler contrato em PDF" preenche o formulário a partir do contrato assinado. Precisa da variável `ANTHROPIC_API_KEY`. Passo a passo em [docs/leitura-automatica-contratos.md](docs/leitura-automatica-contratos.md).
 

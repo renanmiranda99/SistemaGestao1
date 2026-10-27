@@ -1,6 +1,7 @@
 "use client";
 
 import { useFormState, useFormStatus } from "react-dom";
+import Link from "next/link";
 import { entrar } from "./actions";
 
 function Botao() {
@@ -23,6 +24,7 @@ export function LoginForm({ erroInicial }: { erroInicial?: string }) {
       <div>
         <label className="label" htmlFor="senha">Senha</label>
         <input className="input" id="senha" name="senha" type="password" autoComplete="current-password" required />
+        <div className="mt-1.5 text-right"><Link href="/esqueci-senha" className="link text-sm">Esqueci a senha</Link></div>
       </div>
       {estado?.erro && <p className="text-sm text-red-600">{estado.erro}</p>}
       <Botao />

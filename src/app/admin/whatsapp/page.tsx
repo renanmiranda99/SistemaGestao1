@@ -77,6 +77,7 @@ export default async function AdminWhatsApp({ searchParams }: { searchParams: { 
                       {inq && (
                         <BotaoWhatsApp
                           inquilinoId={inq.id}
+                          desligado={inq.whatsapp_ativo === false}
                           cobrancaId={c.id}
                           telefone={inq.telefone}
                           apiConfigurada={api}

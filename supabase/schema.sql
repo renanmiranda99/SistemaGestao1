@@ -442,3 +442,4 @@ create policy "storage: fotos públicas" on storage.objects
 -- Painel de configurações (nome, logos, cores, textos, mapa, regras): veja supabase/migracao_configuracoes.sql
 -- Acordos judiciais (quitam mensalidades): veja supabase/migracao_acordos.sql
 -- Fiador do contrato: veja supabase/migracao_fiador.sql
+-- WhatsApp ligado/desligado por inquilino: veja supabase/migracao_whatsapp_usuario.sql

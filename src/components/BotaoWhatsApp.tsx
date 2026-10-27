@@ -11,6 +11,7 @@ export function BotaoWhatsApp({
   mensagem,
   apiConfigurada,
   rotulo = "WhatsApp",
+  desligado = false,
 }: {
   inquilinoId: string;
   cobrancaId?: string | null;
@@ -18,12 +19,17 @@ export function BotaoWhatsApp({
   mensagem: string;
   apiConfigurada: boolean;
   rotulo?: string;
+  /** WhatsApp desligado para este inquilino pelo admin */
+  desligado?: boolean;
 }) {
   const [aberto, setAberto] = useState(false);
   const [texto, setTexto] = useState(mensagem);
   const [estado, setEstado] = useState<"" | "enviando" | "ok" | "erro">("");
   const [erro, setErro] = useState("");
 
+  if (desligado) {
+    return <span className="badge bg-stone-100 text-stone-600" title="Ligue o WhatsApp deste inquilino na tela Inquilinos">WhatsApp desligado</span>;
+  }
   if (!telefone) {
     return <span className="text-xs text-stone-600" title="Cadastre o telefone do inquilino">sem telefone</span>;
   }

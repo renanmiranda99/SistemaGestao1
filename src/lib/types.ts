@@ -8,6 +8,8 @@ export type Profile = {
   cpf_cnpj: string | null;
   role: Role;
   ativo: boolean;
+  /** Recebe mensagens de WhatsApp (o admin liga/desliga). Ausente = ligado (antes da migração). */
+  whatsapp_ativo?: boolean;
   created_at: string;
 };
 

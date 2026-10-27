@@ -6,6 +6,7 @@ import { brl, hojeISO } from "@/lib/format";
 import { apiWhatsAppConfigurada, mensagemCobranca } from "@/lib/whatsapp";
 import { iniciais, PageHeader, Vazio } from "@/components/ui";
 import { BotaoWhatsApp } from "@/components/BotaoWhatsApp";
+import { ChaveWhatsApp } from "@/components/ChaveWhatsApp";
 
 const SITUACOES = {
   dia: { r: "Em dia", cor: "bg-[#dcefe3] text-[#14532d]" },
@@ -99,12 +100,18 @@ export default async function AdminInquilinos({ searchParams }: { searchParams: 
                       </div>
                     </td>
                     <td>{salasDe(i.id).map((s) => s.nome).join(", ") || "—"}</td>
-                    <td className="whitespace-nowrap tabular-nums">{i.telefone || "—"}</td>
+                    <td>
+                      <div className="flex items-center gap-2.5">
+                        <ChaveWhatsApp inquilinoId={i.id} ativo={i.whatsapp_ativo !== false} nome={i.nome || i.email} />
+                        <span className="whitespace-nowrap tabular-nums">{i.telefone || "—"}</span>
+                      </div>
+                    </td>
                     <td><span className={`badge ${SITUACOES[chave].cor}`}>{SITUACOES[chave].r}</span></td>
                     <td className={`text-right font-semibold ${total ? "text-[#b42318]" : "text-stone-600"}`}>{total ? brl(total) : "—"}</td>
                     <td className="text-right">
                       <BotaoWhatsApp
                         inquilinoId={i.id}
+                        desligado={i.whatsapp_ativo === false}
                         cobrancaId={maisAntiga?.id}
                         telefone={i.telefone}
                         apiConfigurada={api}

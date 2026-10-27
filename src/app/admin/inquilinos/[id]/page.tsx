@@ -18,6 +18,7 @@ import {
 } from "../../actions";
 import { PageHeader, SituacaoBadge, StatusBadge, Vazio } from "@/components/ui";
 import { BotaoWhatsApp } from "@/components/BotaoWhatsApp";
+import { ChaveWhatsApp } from "@/components/ChaveWhatsApp";
 import { BotaoConfirmar } from "@/components/BotaoConfirmar";
 import { UploadAditivo, UploadContrato } from "@/components/AdminUploads";
 import { CamposFiador, resumoFiador } from "@/components/CamposFiador";
@@ -61,13 +62,17 @@ export default async function AdminInquilino({ params }: { params: { id: string 
           </>
         }
         acoes={
-          <BotaoWhatsApp
-            inquilinoId={inq.id}
-            telefone={inq.telefone}
-            apiConfigurada={api}
-            rotulo="Mensagem no WhatsApp"
-            mensagem={`Olá, ${inq.nome.split(" ")[0]}! `}
-          />
+          <div className="flex flex-wrap items-center gap-3">
+            <ChaveWhatsApp inquilinoId={inq.id} ativo={inq.whatsapp_ativo !== false} nome={inq.nome || inq.email} comRotulo />
+            <BotaoWhatsApp
+              inquilinoId={inq.id}
+              desligado={inq.whatsapp_ativo === false}
+              telefone={inq.telefone}
+              apiConfigurada={api}
+              rotulo="Mensagem no WhatsApp"
+              mensagem={`Olá, ${inq.nome.split(" ")[0]}! `}
+            />
+          </div>
         }
       />
 
@@ -213,6 +218,7 @@ export default async function AdminInquilino({ params }: { params: { id: string 
                         {(s === "em_cobranca" || s === "vencida") && (
                           <BotaoWhatsApp
                             inquilinoId={inq.id}
+                            desligado={inq.whatsapp_ativo === false}
                             cobrancaId={c.id}
                             telefone={inq.telefone}
                             apiConfigurada={api}
