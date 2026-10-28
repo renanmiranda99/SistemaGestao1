@@ -43,7 +43,7 @@ export default async function Home() {
         <div className="mx-auto flex max-w-[1180px] items-center justify-between gap-4 px-4 py-4 md:px-8">
           <Link href="/" className="flex items-center gap-3">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={config.logoMarcaUrl} alt="" width={40} height={40} className="h-10 w-10 rounded-[11px] object-cover ring-1 ring-white/25" />
+            <img src={config.logoMarcaUrl} alt="" width={40} height={40} className="h-10 w-10 rounded-full object-cover ring-1 ring-white/25" />
             <span className="text-[17px] font-semibold text-white">{config.nome}</span>
           </Link>
           <Link href={portal ?? "/login"} className="btn min-h-10 border-white/25 bg-transparent text-white hover:bg-brand-800">

@@ -167,7 +167,7 @@ export function AppShell({
   const marca = (
     <Link href="/" title="Ir para a página inicial" className="flex min-w-0 items-center gap-3 rounded-[10px] px-2 hover:opacity-90">
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={galeria.logo} alt="" width={36} height={36} className="h-9 w-9 shrink-0 rounded-[10px] ring-1 ring-white/25" />
+      <img src={galeria.logo} alt="" width={36} height={36} className="h-9 w-9 shrink-0 rounded-full object-cover ring-1 ring-white/25" />
       <span className="min-w-0">
         <span className="block truncate text-[15px] font-semibold text-white">{galeria.nome}</span>
         <span className="block truncate text-xs text-white/60">{titulo}</span>

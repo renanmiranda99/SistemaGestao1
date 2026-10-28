@@ -43,8 +43,8 @@ export const MENSAGEM_COBRANCA_PADRAO =
 
 export const CONFIG_PADRAO: Config = {
   nome: process.env.NEXT_PUBLIC_NOME_GALERIA || "Galeria Asa Branca",
-  logoMarcaUrl: "/logo-marca.png",
-  logoCompletaUrl: "/logo-asa-branca.png",
+  logoMarcaUrl: "/marca/asa-gestao-icone.svg",
+  logoCompletaUrl: "/marca/asa-gestao-logo.svg",
   ...CORES_PADRAO,
   homeTitulo: "Salas disponíveis para aluguel",
   homeTexto: "{quantidade} na {nome}. Veja as fotos e fale com a administração.",
@@ -78,8 +78,9 @@ export function normalizarConfig(dados: unknown): Config {
   const c = saida as Config;
   if (!/^#[0-9a-f]{6}$/i.test(c.corPrimaria)) c.corPrimaria = CORES_PADRAO.corPrimaria;
   if (!/^#[0-9a-f]{6}$/i.test(c.corMenu)) c.corMenu = CORES_PADRAO.corMenu;
-  if (!c.logoMarcaUrl) c.logoMarcaUrl = CONFIG_PADRAO.logoMarcaUrl;
-  if (!c.logoCompletaUrl) c.logoCompletaUrl = CONFIG_PADRAO.logoCompletaUrl;
+  // Configurações salvas com as logos antigas da galeria passam a usar a marca Asa Gestão
+  if (!c.logoMarcaUrl || c.logoMarcaUrl === "/logo-marca.png") c.logoMarcaUrl = CONFIG_PADRAO.logoMarcaUrl;
+  if (!c.logoCompletaUrl || c.logoCompletaUrl === "/logo-asa-branca.png") c.logoCompletaUrl = CONFIG_PADRAO.logoCompletaUrl;
   return c;
 }
 
