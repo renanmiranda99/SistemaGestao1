@@ -24,7 +24,7 @@ export function AnuncioSala({ sala }: { sala: DadosAnuncio }) {
 
   return (
     <>
-      <article className="group flex flex-col overflow-hidden rounded-2xl border border-stone-200 bg-white transition hover:border-stone-300 hover:shadow-md">
+      <article className="group flex flex-col overflow-hidden rounded-lg border border-stone-200 bg-white transition hover:border-stone-300 hover:shadow-md">
         <button
           type="button"
           onClick={() => setAberto(0)}
@@ -134,7 +134,7 @@ function Visualizador({ sala, inicio, aoFechar }: { sala: DadosAnuncio; inicio: 
     >
       {/* Moldura: foto em cima, informações embaixo */}
       <div
-        className="flex max-h-full w-full max-w-[960px] flex-col overflow-hidden rounded-2xl bg-white shadow-2xl"
+        className="flex max-h-full w-full max-w-[960px] flex-col overflow-hidden rounded-lg bg-white shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
         <div

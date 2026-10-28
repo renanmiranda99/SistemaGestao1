@@ -18,7 +18,8 @@ const SECOES = [
 ];
 
 const PALETAS = [
-  { r: "Azul-marinho", primaria: "#1d4e89", menu: "#0f2540" },
+  { r: "Stripe", primaria: "#635bff", menu: "#0a2540" },
+  { r: "Azul-marinho", primaria: "#1e4f8a", menu: "#0f2641" },
   { r: "Verde", primaria: "#1f6b4f", menu: "#12332a" },
   { r: "Vinho", primaria: "#8a2846", menu: "#2b0f1a" },
   { r: "Grafite", primaria: "#3a4a5c", menu: "#161b22" },
@@ -149,7 +150,7 @@ function CampoCor({ id, nome, rotulo, valor, aoMudar, ajuda }: { id: string; nom
             aoMudar(e.target.value);
             setTexto(e.target.value);
           }}
-          className="h-11 w-14 cursor-pointer rounded-[10px] border border-stone-300 bg-white p-1"
+          className="h-11 w-14 cursor-pointer rounded-md border border-stone-300 bg-white p-1"
           aria-label={`${rotulo}: seletor`}
         />
         <input
@@ -175,11 +176,11 @@ function PreviaCores({ primaria, menu }: { primaria: string; menu: string }) {
   const vars = variaveisTema(primaria, menu) as React.CSSProperties;
   return (
     <div style={vars} className="flex overflow-hidden rounded-xl border border-stone-200" aria-label="Prévia das cores" role="img">
-      <div className="flex w-36 flex-col gap-1.5 bg-brand-900 p-3">
-        <span className="mb-1 h-2 w-16 rounded bg-white/60" />
-        <span className="rounded-md bg-stone-50 px-2 py-1.5 text-[11px] font-semibold text-brand-900">Painel</span>
-        <span className="rounded-md px-2 py-1.5 text-[11px] text-white/80">Inquilinos</span>
-        <span className="rounded-md bg-brand-800 px-2 py-1.5 text-[11px] text-white">Pagamentos</span>
+      <div className="flex w-36 flex-col gap-1.5 border-r border-stone-200 bg-white p-3">
+        <span className="faixa-marca mb-1 h-2 w-16 rounded" />
+        <span className="rounded-md bg-brand-50 px-2 py-1.5 text-[11px] font-semibold text-brand-600">Painel</span>
+        <span className="rounded-md px-2 py-1.5 text-[11px] text-stone-600">Inquilinos</span>
+        <span className="rounded-md px-2 py-1.5 text-[11px] text-stone-600">Pagamentos</span>
       </div>
       <div className="flex flex-1 flex-col justify-center gap-2.5 bg-stone-50 p-4">
         <span className="text-sm font-semibold text-stone-900">Exemplo de página</span>
@@ -248,7 +249,7 @@ export function FormConfiguracoes({ config }: { config: Config }) {
         </div>
       </Secao>
 
-      <Secao id="cores" titulo="Cores" descricao="A cor principal pinta botões, links e destaques. A cor do menu pinta o menu lateral e o topo das páginas públicas.">
+      <Secao id="cores" titulo="Cores" descricao="A cor principal pinta botões, links, o item ativo do menu e destaques. A cor escura pinta o topo da página inicial e o painel do login.">
         <div className="flex flex-wrap gap-2" aria-label="Paletas prontas">
           {PALETAS.map((p) => (
             <button
@@ -280,11 +281,11 @@ export function FormConfiguracoes({ config }: { config: Config }) {
         </div>
         <div className="grid gap-5 sm:grid-cols-2">
           <CampoCor id="cfg-cor-primaria" nome="corPrimaria" rotulo="Cor principal" valor={primaria} aoMudar={setPrimaria} ajuda="Botões, links, abas ativas." />
-          <CampoCor id="cfg-cor-menu" nome="corMenu" rotulo="Cor do menu" valor={menu} aoMudar={setMenu} ajuda="Fundo do menu lateral e do topo. Use um tom escuro." />
+          <CampoCor id="cfg-cor-menu" nome="corMenu" rotulo="Cor escura" valor={menu} aoMudar={setMenu} ajuda="Início do degradê no topo da página inicial e no login. Use um tom escuro." />
         </div>
         {(contrastePrimaria < 4.5 || contrasteMenu < 4.5) && (
           <p className="rounded-xl bg-[#fdf1e4] px-4 py-3 text-sm text-[#5c2a06]">
-            {contrasteMenu < 4.5 && "A cor do menu está clara demais: o texto branco do menu fica difícil de ler. "}
+            {contrasteMenu < 4.5 && "A cor escura está clara demais: o texto branco do topo fica difícil de ler. "}
             {contrastePrimaria < 4.5 && "A cor principal está clara demais: o texto branco dos botões fica difícil de ler."}
           </p>
         )}
@@ -387,8 +388,8 @@ export function FormConfiguracoes({ config }: { config: Config }) {
 
       <div className="sticky bottom-0 z-10 -mx-4 flex flex-wrap items-center gap-3 border-t border-stone-200 bg-stone-50/95 px-4 py-3 backdrop-blur md:-mx-10 md:px-10">
         <BotaoSalvar />
-        {estado?.ok && <span className="text-sm font-semibold text-[#14532d]" role="status">{estado.ok}</span>}
-        {estado?.aviso && <span className="text-sm text-[#7a3306]" role="status">{estado.aviso}</span>}
+        {estado?.ok && <span className="text-sm font-semibold text-[#05690d]" role="status">{estado.ok}</span>}
+        {estado?.aviso && <span className="text-sm text-[#9e2f00]" role="status">{estado.aviso}</span>}
         {estado?.erro && <span className="text-sm text-red-700" role="alert">{estado.erro}</span>}
       </div>
     </form>

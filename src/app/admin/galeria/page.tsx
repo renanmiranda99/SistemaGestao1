@@ -13,7 +13,7 @@ type InquilinoOpcao = Pick<Profile, "id" | "nome" | "email">;
 
 const TIPO_VISTORIA: Record<TipoVistoria, { r: string; cor: string }> = {
   entrada: { r: "Entrada", cor: "bg-brand-100 text-brand-700" },
-  dano: { r: "Dano", cor: "bg-[#fbdad7] text-[#8a1c12]" },
+  dano: { r: "Dano", cor: "bg-[#ffe7f2] text-[#b3093c]" },
   saida: { r: "Saída", cor: "bg-stone-100 text-stone-700" },
 };
 
@@ -144,7 +144,7 @@ function CartaoSala({
             {inquilinoNome}
           </Link>
         ) : sala.disponivel_aluguel ? (
-          <a href="/" target="_blank" rel="noreferrer" className="badge bg-[#dcefe3] text-[#14532d] hover:underline">
+          <a href="/" target="_blank" rel="noreferrer" className="badge bg-[#d7f7c2] text-[#05690d] hover:underline">
             Disponível para aluguel · anunciada
           </a>
         ) : (

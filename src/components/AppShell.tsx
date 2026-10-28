@@ -17,7 +17,7 @@ export type ItemMenu = {
 };
 
 const COR_CONTADOR = {
-  analise: "bg-[#e6defa] text-[#5b21b6]",
+  analise: "bg-[#cff5f6] text-[#0055bc]",
   aviso: "bg-[#f6d27a] text-[#4d3803]",
   alerta: "bg-[#ef9b52] text-[#3d1c04]",
 };
@@ -165,12 +165,12 @@ export function AppShell({
   }, [aberto]);
 
   const marca = (
-    <Link href="/" title="Ir para a página inicial" className="flex min-w-0 items-center gap-3 rounded-[10px] px-2 hover:opacity-90">
+    <Link href="/" title="Ir para a página inicial" className="flex min-w-0 items-center gap-3 rounded-md px-2 hover:opacity-90">
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={galeria.logo} alt="" width={36} height={36} className="h-9 w-9 shrink-0 rounded-full object-cover ring-1 ring-white/25" />
+      <img src={galeria.logo} alt="" width={36} height={36} className="h-9 w-9 shrink-0 rounded-full object-cover" />
       <span className="min-w-0">
-        <span className="block truncate text-[15px] font-semibold text-white">{galeria.nome}</span>
-        <span className="block truncate text-xs text-white/60">{titulo}</span>
+        <span className="block truncate text-[15px] font-semibold text-stone-900">{galeria.nome}</span>
+        <span className="block truncate text-xs text-stone-600">{titulo}</span>
       </span>
     </Link>
   );
@@ -181,7 +181,7 @@ export function AppShell({
       <Link
         href="/"
         tabIndex={emGaveta && !aberto ? -1 : undefined}
-        className="mb-3 flex min-h-11 items-center gap-3 rounded-[10px] border border-white/15 px-3 text-sm font-medium text-white/80 transition hover:bg-brand-800 hover:text-white"
+        className="mb-3 flex min-h-11 items-center gap-3 rounded-md border border-stone-200 bg-white px-3 text-sm font-medium text-stone-700 transition hover:bg-stone-100 hover:text-stone-900"
       >
         <Svg>{CAMINHOS.home}</Svg>
         <span className="flex-1">Home</span>
@@ -195,8 +195,8 @@ export function AppShell({
                 href={item.href}
                 tabIndex={emGaveta && !aberto ? -1 : undefined}
                 aria-current={atual ? "page" : undefined}
-                className={`flex min-h-11 items-center gap-3 rounded-[10px] px-3 text-sm font-medium transition ${
-                  atual ? "bg-stone-50 text-brand-900" : "text-white/80 hover:bg-brand-800 hover:text-white"
+                className={`flex min-h-11 items-center gap-3 rounded-md px-3 text-sm transition ${
+                  atual ? "bg-brand-50 font-semibold text-brand-600" : "font-medium text-stone-600 hover:bg-stone-100 hover:text-stone-900"
                 }`}
               >
                 <Svg>{CAMINHOS[item.icone]}</Svg>
@@ -218,17 +218,17 @@ export function AppShell({
   );
 
   const rodape = (emGaveta: boolean) => (
-    <div className="mt-auto flex items-center gap-3 rounded-xl bg-brand-800 p-3">
-      <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-brand-500 text-sm font-semibold text-white">
+    <div className="mt-auto flex items-center gap-3 rounded-lg border border-stone-200 bg-white p-3">
+      <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-brand-600 text-sm font-semibold text-white">
         {iniciais(usuario)}
       </span>
       <span className="min-w-0 flex-1">
-        <span className="block truncate text-sm font-semibold text-white">{usuario}</span>
-        <span className="block truncate text-xs text-white/60">{perfil}</span>
+        <span className="block truncate text-sm font-semibold text-stone-900">{usuario}</span>
+        <span className="block truncate text-xs text-stone-600">{perfil}</span>
       </span>
       <form action={sair}>
         <button
-          className="grid h-11 w-11 place-items-center rounded-[10px] text-white/80 hover:bg-brand-900 hover:text-white"
+          className="grid h-11 w-11 place-items-center rounded-md text-stone-600 hover:bg-stone-100 hover:text-stone-900"
           aria-label="Sair"
           title="Sair"
           tabIndex={emGaveta && !aberto ? -1 : undefined}
@@ -246,18 +246,18 @@ export function AppShell({
   return (
     <div className="min-h-screen md:flex">
       {/* Desktop: menu lateral fixo */}
-      <aside className="sticky top-0 hidden h-screen w-[248px] shrink-0 flex-col gap-7 overflow-y-auto bg-brand-900 px-4 py-6 md:flex">
+      <aside className="sticky top-0 hidden h-screen w-[248px] shrink-0 flex-col gap-7 overflow-y-auto bg-stone-50 px-4 py-6 md:flex">
         {marca}
         {navegacao(false)}
         {rodape(false)}
       </aside>
 
       {/* Mobile: barra superior */}
-      <header className="sticky top-0 z-30 flex items-center justify-between gap-3 bg-brand-900 px-4 py-3 md:hidden">
+      <header className="sticky top-0 z-30 flex items-center justify-between gap-3 border-b border-stone-200 bg-white px-4 py-3 md:hidden">
         {marca}
         <button
           type="button"
-          className="-mr-2 grid h-11 w-11 place-items-center rounded-[10px] text-white hover:bg-brand-800"
+          className="-mr-2 grid h-11 w-11 place-items-center rounded-md text-stone-900 hover:bg-stone-100"
           aria-label="Abrir menu"
           aria-expanded={aberto}
           aria-controls="menu-mobile"
@@ -279,7 +279,7 @@ export function AppShell({
       />
       <aside
         id="menu-mobile"
-        className={`fixed inset-y-0 left-0 z-50 flex w-72 max-w-[85vw] flex-col gap-7 overflow-y-auto bg-brand-900 px-4 py-5 shadow-xl transition-[transform,visibility] duration-200 md:hidden ${
+        className={`fixed inset-y-0 left-0 z-50 flex w-72 max-w-[85vw] flex-col gap-7 overflow-y-auto bg-stone-50 px-4 py-5 shadow-xl transition-[transform,visibility] duration-200 md:hidden ${
           aberto ? "visible translate-x-0" : "invisible -translate-x-full"
         }`}
         aria-hidden={!aberto}
@@ -288,7 +288,7 @@ export function AppShell({
           {marca}
           <button
             type="button"
-            className="-mr-2 grid h-11 w-11 shrink-0 place-items-center rounded-[10px] text-white/80 hover:bg-brand-800"
+            className="-mr-2 grid h-11 w-11 shrink-0 place-items-center rounded-md text-stone-600 hover:bg-stone-100"
             aria-label="Fechar menu"
             onClick={() => setAberto(false)}
             tabIndex={aberto ? 0 : -1}

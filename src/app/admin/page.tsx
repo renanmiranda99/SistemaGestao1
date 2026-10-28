@@ -158,7 +158,7 @@ export default async function AdminPainel({ searchParams }: { searchParams: { an
               const cob = cobrancaPorId.get(cp.cobranca_id);
               return (
                 <li key={cp.id} className="flex flex-wrap items-center gap-3.5 border-t border-stone-100 px-5 py-3.5">
-                  <span aria-hidden="true" className="grid h-[30px] w-[30px] place-items-center rounded-lg bg-[#e6defa] text-[13px] font-bold text-[#5b21b6]">?</span>
+                  <span aria-hidden="true" className="grid h-[30px] w-[30px] place-items-center rounded-lg bg-[#cff5f6] text-[13px] font-bold text-[#0055bc]">?</span>
                   <div className="min-w-0 flex-[1_1_240px]">
                     <div className="text-sm font-semibold">
                       Comprovante{cob ? ` de ${mesAnoLongo(cob.competencia).split(" ")[0]}` : ""} · {nomeInq(cp.inquilino_id)}
@@ -173,7 +173,7 @@ export default async function AdminPainel({ searchParams }: { searchParams: { an
             })}
             {cobrancasAtencao.map((x) => (
               <li key={x.id} className="flex flex-wrap items-center gap-3.5 border-t border-stone-100 px-5 py-3.5">
-                <span aria-hidden="true" className="grid h-[30px] w-[30px] place-items-center rounded-lg bg-[#b42318] text-[13px] font-bold text-white">!</span>
+                <span aria-hidden="true" className="grid h-[30px] w-[30px] place-items-center rounded-lg bg-[#df1b41] text-[13px] font-bold text-white">!</span>
                 <div className="min-w-0 flex-[1_1_240px]">
                   <div className="text-sm font-semibold">Em cobrança há {x.dias} dias · {nomeInq(x.id)}</div>
                   <div className="text-[13px] text-stone-600">
@@ -204,7 +204,7 @@ export default async function AdminPainel({ searchParams }: { searchParams: { an
                 const ehHoje = c.vencimento === hoje;
                 return (
                   <li key={c.id} className="flex items-center gap-3">
-                    <div className={`w-12 shrink-0 rounded-[10px] py-1.5 text-center ${ehHoje ? "bg-[#fbefc9] text-[#4d3803]" : "bg-stone-100 text-stone-700"}`}>
+                    <div className={`w-12 shrink-0 rounded-md py-1.5 text-center ${ehHoje ? "bg-[#fcedb9] text-[#4d3803]" : "bg-stone-100 text-stone-700"}`}>
                       <div className="text-[11px] font-semibold uppercase">{ehHoje ? "Hoje" : nomeMesCurto(Number(c.vencimento.slice(5, 7)) - 1)}</div>
                       <div className="text-[17px] font-bold">{c.vencimento.slice(8, 10)}</div>
                     </div>
@@ -288,7 +288,7 @@ export default async function AdminPainel({ searchParams }: { searchParams: { an
                         </span>
                       );
                     })}
-                    <span className={`text-right text-sm font-semibold ${aberto ? "text-[#b42318]" : "text-[#2f7d55]"}`}>
+                    <span className={`text-right text-sm font-semibold ${aberto ? "text-[#df1b41]" : "text-[#228403]"}`}>
                       {aberto ? brl(aberto) : "Em dia"}
                     </span>
                   </div>

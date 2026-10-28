@@ -18,7 +18,7 @@ export function PageHeader({
         {sobretitulo && (
           <span className="text-[13px] font-semibold uppercase tracking-wide text-stone-600">{sobretitulo}</span>
         )}
-        <h1 className="text-[28px] font-bold leading-tight tracking-tight text-stone-900 md:text-[32px]">{titulo}</h1>
+        <h1 className="text-[26px] font-semibold leading-tight tracking-[-0.02em] text-stone-900 md:text-[28px]">{titulo}</h1>
         {descricao && <p className="text-[15px] text-stone-600">{descricao}</p>}
       </div>
       {acoes && <div className="flex flex-wrap gap-2">{acoes}</div>}
@@ -79,19 +79,19 @@ export function LegendaSituacoes({ itens }: { itens: Situacao[] }) {
 }
 
 const CORES_STATUS: Record<string, string> = {
-  aberto: "bg-[#fbefc9] text-[#5c4204]",
+  aberto: "bg-[#fcedb9] text-[#7a3a00]",
   em_andamento: "bg-brand-100 text-brand-700",
-  resolvido: "bg-[#dcefe3] text-[#14532d]",
+  resolvido: "bg-[#d7f7c2] text-[#05690d]",
   fechado: "bg-stone-100 text-stone-600",
-  pendente: "bg-[#fce3cc] text-[#7a3306]",
-  paga: "bg-[#dcefe3] text-[#14532d]",
+  pendente: "bg-[#ffe6d5] text-[#9e2f00]",
+  paga: "bg-[#d7f7c2] text-[#05690d]",
   cancelada: "bg-stone-100 text-stone-500",
-  em_analise: "bg-[#ece6fb] text-[#5b21b6]",
-  aprovado: "bg-[#dcefe3] text-[#14532d]",
-  rejeitado: "bg-[#fbdad7] text-[#8a1c12]",
+  em_analise: "bg-[#cff5f6] text-[#0055bc]",
+  aprovado: "bg-[#d7f7c2] text-[#05690d]",
+  rejeitado: "bg-[#ffe7f2] text-[#b3093c]",
   baixa: "bg-stone-100 text-stone-700",
-  media: "bg-[#fce3cc] text-[#7a3306]",
-  alta: "bg-[#fbdad7] text-[#8a1c12]",
+  media: "bg-[#ffe6d5] text-[#9e2f00]",
+  alta: "bg-[#ffe7f2] text-[#b3093c]",
 };
 
 const ROTULOS: Record<string, string> = {
@@ -120,7 +120,7 @@ export function StatusBadge({ status }: { status: string }) {
 
 export function Vazio({ children }: { children: React.ReactNode }) {
   return (
-    <div className="rounded-2xl border border-dashed border-stone-300 bg-white px-4 py-10 text-center text-sm text-stone-600">
+    <div className="rounded-lg border border-dashed border-stone-300 bg-white px-4 py-10 text-center text-sm text-stone-600">
       {children}
     </div>
   );
@@ -143,16 +143,16 @@ export function Stat({
 }) {
   const cor =
     destaque === "alerta"
-      ? "text-[#b42318]"
+      ? "text-[#df1b41]"
       : destaque === "ok"
-        ? "text-[#2f7d55]"
+        ? "text-[#228403]"
         : destaque === "info"
-          ? "text-[#5b21b6]"
+          ? "text-[#0055bc]"
           : destaque === "aviso"
-            ? "text-[#7a3306]"
+            ? "text-[#9e2f00]"
             : "text-stone-900";
   const conteudo = (
-    <div className={`flex h-full flex-col gap-3 rounded-2xl border border-stone-200 bg-white p-5 ${href ? "transition hover:border-stone-300 hover:shadow-sm" : ""}`}>
+    <div className={`flex h-full flex-col gap-3 rounded-lg border border-stone-200 bg-white p-5 ${href ? "transition hover:border-stone-300 hover:shadow-sm" : ""}`}>
       <div className="text-[13px] font-medium text-stone-600">{rotulo}</div>
       <div className={`text-[26px] font-bold leading-none tracking-tight ${cor}`}>{valor}</div>
       {children}

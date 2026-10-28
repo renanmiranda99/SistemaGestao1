@@ -9,9 +9,9 @@ import { BotaoWhatsApp } from "@/components/BotaoWhatsApp";
 import { ChaveWhatsApp } from "@/components/ChaveWhatsApp";
 
 const SITUACOES = {
-  dia: { r: "Em dia", cor: "bg-[#dcefe3] text-[#14532d]" },
-  atrasado: { r: "Atrasado", cor: "bg-[#fce3cc] text-[#7a3306]" },
-  cobranca: { r: "Em cobrança", cor: "bg-[#fbdad7] text-[#8a1c12]" },
+  dia: { r: "Em dia", cor: "bg-[#d7f7c2] text-[#05690d]" },
+  atrasado: { r: "Atrasado", cor: "bg-[#ffe6d5] text-[#9e2f00]" },
+  cobranca: { r: "Em cobrança", cor: "bg-[#ffe7f2] text-[#b3093c]" },
   inativo: { r: "Inativo", cor: "bg-stone-100 text-stone-600" },
 } as const;
 type ChaveSituacao = keyof typeof SITUACOES;
@@ -107,7 +107,7 @@ export default async function AdminInquilinos({ searchParams }: { searchParams: 
                       </div>
                     </td>
                     <td><span className={`badge ${SITUACOES[chave].cor}`}>{SITUACOES[chave].r}</span></td>
-                    <td className={`text-right font-semibold ${total ? "text-[#b42318]" : "text-stone-600"}`}>{total ? brl(total) : "—"}</td>
+                    <td className={`text-right font-semibold ${total ? "text-[#df1b41]" : "text-stone-600"}`}>{total ? brl(total) : "—"}</td>
                     <td className="text-right">
                       <BotaoWhatsApp
                         inquilinoId={i.id}

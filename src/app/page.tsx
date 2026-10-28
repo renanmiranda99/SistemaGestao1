@@ -39,22 +39,22 @@ export default async function Home() {
 
   return (
     <div className="min-h-screen bg-stone-50">
-      <header className="bg-brand-900 text-white/90">
+      <header className="faixa-marca text-white/90">
         <div className="mx-auto flex max-w-[1180px] items-center justify-between gap-4 px-4 py-4 md:px-8">
           <Link href="/" className="flex items-center gap-3">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={config.logoMarcaUrl} alt="" width={40} height={40} className="h-10 w-10 rounded-full object-cover ring-1 ring-white/25" />
+            <img src={config.logoMarcaUrl} alt="" width={40} height={40} className="h-10 w-10 rounded-full object-cover ring-1 ring-white/30" />
             <span className="text-[17px] font-semibold text-white">{config.nome}</span>
           </Link>
-          <Link href={portal ?? "/login"} className="btn min-h-10 border-white/25 bg-transparent text-white hover:bg-brand-800">
+          <Link href={portal ?? "/login"} className="btn min-h-10 bg-white text-stone-900 hover:bg-white/90">
             {portal ? "Ir para o portal" : "Entrar"}
           </Link>
         </div>
         <div className="mx-auto flex max-w-[1180px] flex-col gap-3 px-4 pb-12 pt-8 md:px-8 md:pb-16 md:pt-12">
-          <h1 className="max-w-[680px] text-[34px] font-bold leading-tight tracking-tight text-white md:text-[44px]">
+          <h1 className="max-w-[680px] text-[34px] font-light leading-tight tracking-tight text-white md:text-[48px]">
             {config.homeTitulo}
           </h1>
-          <p className="max-w-[560px] whitespace-pre-line text-base leading-relaxed text-white/70">
+          <p className="max-w-[560px] whitespace-pre-line text-base leading-relaxed text-white/80">
             {preencher(salas.length ? config.homeTexto : config.homeTextoVazio, { nome: config.nome, quantidade })}
           </p>
           {whatsapp && (
@@ -83,7 +83,7 @@ export default async function Home() {
           <section aria-labelledby="localizacao" className="flex flex-col gap-4">
             <div className="flex flex-wrap items-end justify-between gap-3">
               <div>
-                <h2 id="localizacao" className="text-[22px] font-bold tracking-tight">Localização</h2>
+                <h2 id="localizacao" className="text-[22px] font-semibold tracking-tight">Localização</h2>
                 <p className="text-[15px] text-stone-600">{[config.nome, config.endereco].filter(Boolean).join(" · ")}</p>
               </div>
               {config.mapaLink && (
@@ -92,7 +92,7 @@ export default async function Home() {
                 </a>
               )}
             </div>
-            <div className="overflow-hidden rounded-2xl border border-stone-200 bg-white">
+            <div className="overflow-hidden rounded-lg border border-stone-200 bg-white">
               <iframe
                 src={urlMapaEmbed(config.mapaConsulta)}
                 title={`Mapa com a localização da ${config.nome}`}

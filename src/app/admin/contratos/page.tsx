@@ -135,10 +135,10 @@ export default async function ContratosAdmin({ searchParams }: { searchParams: {
               const selo = !ct.ativo
                 ? { r: "Encerrado", cor: "bg-stone-100 text-stone-600" }
                 : dias !== null && dias < 0
-                  ? { r: `Vencido há ${-dias} dia(s)`, cor: "bg-[#fbdad7] text-[#8a1c12]" }
+                  ? { r: `Vencido há ${-dias} dia(s)`, cor: "bg-[#ffe7f2] text-[#b3093c]" }
                   : dias !== null && dias <= 60
-                    ? { r: `Vence em ${dias} dia(s)`, cor: "bg-[#fce3cc] text-[#7a3306]" }
-                    : { r: "Vigente", cor: "bg-[#dcefe3] text-[#14532d]" };
+                    ? { r: `Vence em ${dias} dia(s)`, cor: "bg-[#ffe6d5] text-[#9e2f00]" }
+                    : { r: "Vigente", cor: "bg-[#d7f7c2] text-[#05690d]" };
               return (
                 <details key={ct.id} className="card group p-0">
                   <summary className="flex cursor-pointer list-none flex-wrap items-center gap-x-6 gap-y-2 px-5 py-4 hover:bg-stone-50/60">

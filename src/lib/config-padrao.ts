@@ -32,7 +32,9 @@ export type Config = {
   mensagemCobranca: string;
 };
 
-export const CORES_PADRAO = { corPrimaria: "#1d4e89", corMenu: "#0f2540" };
+export const CORES_PADRAO = { corPrimaria: "#635bff", corMenu: "#0a2540" };
+/** Cores padrão do design anterior: quem não as trocou passa a ver as do estilo Stripe. */
+const CORES_ANTIGAS = { corPrimaria: "#1d4e89", corMenu: "#0f2540" };
 
 export const MENSAGEM_COBRANCA_PADRAO =
   "Olá, {nome}! Tudo bem?\n\n" +
@@ -76,8 +78,8 @@ export function normalizarConfig(dados: unknown): Config {
     else if (typeof padrao === "string" && typeof v === "string") saida[chave] = v;
   }
   const c = saida as Config;
-  if (!/^#[0-9a-f]{6}$/i.test(c.corPrimaria)) c.corPrimaria = CORES_PADRAO.corPrimaria;
-  if (!/^#[0-9a-f]{6}$/i.test(c.corMenu)) c.corMenu = CORES_PADRAO.corMenu;
+  if (!/^#[0-9a-f]{6}$/i.test(c.corPrimaria) || c.corPrimaria.toLowerCase() === CORES_ANTIGAS.corPrimaria) c.corPrimaria = CORES_PADRAO.corPrimaria;
+  if (!/^#[0-9a-f]{6}$/i.test(c.corMenu) || c.corMenu.toLowerCase() === CORES_ANTIGAS.corMenu) c.corMenu = CORES_PADRAO.corMenu;
   // Configurações salvas com as logos antigas da galeria passam a usar a marca Asa Gestão
   if (!c.logoMarcaUrl || c.logoMarcaUrl === "/logo-marca.png") c.logoMarcaUrl = CONFIG_PADRAO.logoMarcaUrl;
   if (!c.logoCompletaUrl || c.logoCompletaUrl === "/logo-asa-branca.png") c.logoCompletaUrl = CONFIG_PADRAO.logoCompletaUrl;

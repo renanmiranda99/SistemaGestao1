@@ -28,7 +28,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         {/* eslint-disable-next-line @next/next/no-page-custom-font */}
         <link
           rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@500&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Geist+Mono:wght@500&display=swap"
         />
         {/* Cores escolhidas no painel de Configurações */}
         <style dangerouslySetInnerHTML={{ __html: cssTema(config.corPrimaria, config.corMenu) }} />

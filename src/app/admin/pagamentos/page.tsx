@@ -43,7 +43,7 @@ export default async function AdminPagamentos({ searchParams }: { searchParams: 
       <section className="mb-6">
         <div className="mb-3 flex items-center gap-2.5">
           <h2 className="titulo-secao">Comprovantes para analisar</h2>
-          <span className="badge bg-[#ece6fb] text-[#5b21b6]">{comprovantes.length}</span>
+          <span className="badge bg-[#cff5f6] text-[#0055bc]">{comprovantes.length}</span>
         </div>
         {comprovantes.length ? (
           <div className="grid gap-4 lg:grid-cols-2">

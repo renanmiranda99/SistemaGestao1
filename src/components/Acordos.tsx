@@ -130,14 +130,14 @@ export function NovoAcordo({
                     <span className="text-stone-600">vence {c.vencimento}</span>
                     <span className="badge bg-stone-100 text-stone-700">{c.situacao}</span>
                     <span className="w-28 text-right tabular-nums">{brl(c.valor)}</span>
-                    <span className="w-32 text-right tabular-nums text-[#b42318]">{c.atualizado !== c.valor ? brl(c.atualizado) : ""}</span>
+                    <span className="w-32 text-right tabular-nums text-[#df1b41]">{c.atualizado !== c.valor ? brl(c.atualizado) : ""}</span>
                   </label>
                 </li>
               ))}
             </ul>
             <p className="mt-3 text-sm">
               <b>{selecionadas.length}</b> marcada(s) · valor original <b>{brl(soma)}</b>
-              {somaAtualizada !== soma && <> · com multa e juros <b className="text-[#b42318]">{brl(somaAtualizada)}</b></>}
+              {somaAtualizada !== soma && <> · com multa e juros <b className="text-[#df1b41]">{brl(somaAtualizada)}</b></>}
             </p>
           </>
         )}
@@ -159,7 +159,7 @@ export function NovoAcordo({
       </p>
       <div className="flex flex-wrap items-center gap-3">
         <BotaoRegistrar />
-        {estado?.ok && <span className="text-sm font-semibold text-[#14532d]" role="status">{estado.ok}</span>}
+        {estado?.ok && <span className="text-sm font-semibold text-[#05690d]" role="status">{estado.ok}</span>}
         {estado?.erro && <span className="text-sm text-red-700" role="alert">{estado.erro}</span>}
       </div>
     </form>

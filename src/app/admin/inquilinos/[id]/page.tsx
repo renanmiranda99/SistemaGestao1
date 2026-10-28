@@ -58,7 +58,7 @@ export default async function AdminInquilino({ params }: { params: { id: string 
           <>
             {inq.email}
             {inq.telefone ? ` · ${inq.telefone}` : ""} · Em aberto:{" "}
-            <b className={totalPendente ? "text-[#b42318]" : "text-[#2f7d55]"}>{brl(totalPendente)}</b>
+            <b className={totalPendente ? "text-[#df1b41]" : "text-[#228403]"}>{brl(totalPendente)}</b>
           </>
         }
         acoes={

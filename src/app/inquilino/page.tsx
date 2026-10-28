@@ -40,7 +40,7 @@ export default async function InquilinoInicio() {
       <PageHeader sobretitulo={dataHoje} titulo={`Olá, ${primeiroNome}`} />
 
       {maisAntiga && (
-        <section className="mb-6 flex flex-wrap items-center gap-4 rounded-2xl border border-[#f5d3b0] bg-[#fdf1e4] px-6 py-5">
+        <section className="mb-6 flex flex-wrap items-center gap-4 rounded-lg border border-[#f5d3b0] bg-[#fdf1e4] px-6 py-5">
           <span aria-hidden="true" className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-[#ef9b52] text-[#3d1c04]">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <circle cx="12" cy="12" r="9" />

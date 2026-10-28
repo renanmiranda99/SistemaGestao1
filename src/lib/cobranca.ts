@@ -50,27 +50,27 @@ export const ROTULO_SITUACAO: Record<Situacao, string> = {
 
 /** Cores do selo (badge) de cada situação. */
 export const COR_SITUACAO: Record<Situacao, string> = {
-  paga: "bg-[#dcefe3] text-[#14532d]",
-  paga_atraso: "bg-[#dcefe3] text-[#14532d] shadow-[inset_0_0_0_1.5px_#e07b2e]",
-  paga_acordo: "bg-[#d9eef0] text-[#0f4c55]",
-  em_analise: "bg-[#ece6fb] text-[#5b21b6]",
+  paga: "bg-[#d7f7c2] text-[#05690d]",
+  paga_atraso: "bg-[#fcedb9] text-[#a82c00]",
+  paga_acordo: "bg-[#e5e3ff] text-[#3d33cc]",
+  em_analise: "bg-[#cff5f6] text-[#0055bc]",
   a_vencer: "bg-stone-100 text-stone-700",
-  vence_hoje: "bg-[#fbefc9] text-[#5c4204]",
-  vencida: "bg-[#fce3cc] text-[#7a3306]",
-  em_cobranca: "bg-[#fbdad7] text-[#8a1c12]",
+  vence_hoje: "bg-[#fcedb9] text-[#7a3a00]",
+  vencida: "bg-[#ffe6d5] text-[#9e2f00]",
+  em_cobranca: "bg-[#ffe7f2] text-[#b3093c]",
   cancelada: "bg-stone-100 text-stone-500 line-through",
 };
 
 /** Cores do quadradinho da grade mês a mês (mais fortes que o selo). */
 export const COR_CELULA: Record<Situacao, string> = {
-  paga: "bg-[#2f7d55] text-white",
-  paga_atraso: "bg-[#cde8d7] text-[#14532d] shadow-[inset_0_0_0_2px_#e07b2e]",
-  paga_acordo: "bg-[#1f6f7a] text-white",
-  em_analise: "bg-[#e6defa] text-[#5b21b6]",
+  paga: "bg-[#228403] text-white",
+  paga_atraso: "bg-[#d7f7c2] text-[#05690d] shadow-[inset_0_0_0_2px_#d97917]",
+  paga_acordo: "bg-[#635bff] text-white",
+  em_analise: "bg-[#cff5f6] text-[#0055bc]",
   a_vencer: "border-[1.5px] border-dashed border-stone-300 text-stone-600",
-  vence_hoje: "bg-[#f6d27a] text-[#4d3803]",
-  vencida: "bg-[#ef9b52] text-[#3d1c04]",
-  em_cobranca: "bg-[#b42318] text-white",
+  vence_hoje: "bg-[#f5be58] text-[#3d1c04]",
+  vencida: "bg-[#fa8b48] text-[#3d1c04]",
+  em_cobranca: "bg-[#df1b41] text-white",
   cancelada: "bg-stone-100 text-stone-400",
 };
 

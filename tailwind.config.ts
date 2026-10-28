@@ -5,7 +5,7 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["Geist", "ui-sans-serif", "system-ui", "-apple-system", "Segoe UI", "Roboto", "sans-serif"],
+        sans: ["Inter", "ui-sans-serif", "system-ui", "-apple-system", "Segoe UI", "Roboto", "sans-serif"],
         mono: ["Geist Mono", "ui-monospace", "SFMono-Regular", "monospace"],
       },
       colors: {
@@ -14,18 +14,18 @@ const config: Config = {
         brand: Object.fromEntries(
           [50, 100, 200, 500, 600, 700, 800, 900].map((n) => [n, `rgb(var(--brand-${n}) / <alpha-value>)`])
         ),
-        // Neutros frios do novo design (fundo, bordas, divisórias)
+        // Neutros do estilo Stripe (fundo, bordas, textos de apoio)
         stone: {
-          50: "#f4f6f9",
-          100: "#edf0f4",
-          200: "#e1e5ec",
-          300: "#d3d9e2",
-          400: "#b4bcc8",
-          500: "#8a94a3",
-          600: "#586274",
-          700: "#3d4757",
-          800: "#2a3342",
-          900: "#141b26",
+          50: "#f6f9fc",
+          100: "#eef2f7",
+          200: "#e3e8ee",
+          300: "#d5dbe3",
+          400: "#a3acb9",
+          500: "#8792a2",
+          600: "#425466",
+          700: "#3c4257",
+          800: "#2a2f45",
+          900: "#0a2540",
         },
       },
     },
