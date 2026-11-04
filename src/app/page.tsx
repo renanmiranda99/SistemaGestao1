@@ -50,6 +50,10 @@ export default async function Home() {
           </Link>
           <div className="flex items-center gap-2">
             <BotaoTema claro />
+            <Link href="/plataforma" className="btn min-h-10 border-white/35 bg-transparent text-white hover:bg-white/10">
+              <span className="sm:hidden">Plataforma</span>
+              <span className="hidden sm:inline">Conheça a plataforma</span>
+            </Link>
             <Link href={portal ?? "/login"} className="btn min-h-10 bg-superficie text-stone-900 hover:bg-superficie/90">
               {portal ? "Ir para o portal" : "Entrar"}
             </Link>
