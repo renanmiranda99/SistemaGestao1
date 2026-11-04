@@ -56,7 +56,7 @@ export function BotaoWhatsApp({
         {rotulo}
       </button>
       {aberto && (
-        <div className="absolute right-0 z-30 mt-2 w-80 rounded-xl border border-stone-200 bg-white p-3 text-left shadow-lg">
+        <div className="absolute right-0 z-30 mt-2 w-80 rounded-xl border border-stone-200 bg-superficie p-3 text-left shadow-lg">
           <textarea className="input text-xs" rows={8} value={texto} onChange={(e) => setTexto(e.target.value)} />
           <div className="mt-2 flex items-center justify-between gap-2">
             <span className="text-xs text-stone-600">

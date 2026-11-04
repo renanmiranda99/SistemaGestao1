@@ -42,9 +42,22 @@ export function variaveisTema(corPrimaria: string, corMenu: string) {
   };
 }
 
+/** No modo escuro os tons claros (selos, item ativo) viram tons escuros da mesma cor. */
+const FUNDO_ESCURO: [number, number, number] = [10, 17, 30];
+export function variaveisTemaEscuro(corPrimaria: string) {
+  const v = (c: [number, number, number]) => c.join(" ");
+  return {
+    "--brand-50": v(misturar(corPrimaria, FUNDO_ESCURO, 0.82)),
+    "--brand-100": v(misturar(corPrimaria, FUNDO_ESCURO, 0.7)),
+    "--brand-200": v(misturar(corPrimaria, FUNDO_ESCURO, 0.5)),
+    "--brand-700": v(misturar(corPrimaria, BRANCO, 0.35)),
+  };
+}
+
 export function cssTema(corPrimaria: string, corMenu: string) {
-  const vars = Object.entries(variaveisTema(corPrimaria, corMenu))
-    .map(([k, val]) => `${k}:${val}`)
-    .join(";");
-  return `:root{${vars}}`;
+  const css = (vars: Record<string, string>) =>
+    Object.entries(vars)
+      .map(([k, val]) => `${k}:${val}`)
+      .join(";");
+  return `:root{${css(variaveisTema(corPrimaria, corMenu))}}:root.dark{${css(variaveisTemaEscuro(corPrimaria))}}`;
 }

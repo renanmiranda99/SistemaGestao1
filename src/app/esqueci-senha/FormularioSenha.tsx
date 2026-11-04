@@ -15,7 +15,7 @@ function Botao({ texto, enviando }: { texto: string; enviando: string }) {
 export function PedirLink() {
   const [estado, acao] = useFormState(pedirRedefinicao, null);
   if (estado?.ok) {
-    return <p className="rounded-xl bg-[#e3f2e9] p-4 text-sm leading-relaxed text-[#0f3d24]" role="status">{estado.ok}</p>;
+    return <p className="rounded-xl bg-[#e3f2e9] dark:bg-[#12361d] p-4 text-sm leading-relaxed text-[#0f3d24] dark:text-[#8fe3a1]" role="status">{estado.ok}</p>;
   }
   return (
     <form action={acao} className="space-y-4">

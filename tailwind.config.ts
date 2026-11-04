@@ -1,6 +1,7 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
+  darkMode: "class",
   content: ["./src/**/*.{ts,tsx}"],
   theme: {
     extend: {
@@ -14,19 +15,12 @@ const config: Config = {
         brand: Object.fromEntries(
           [50, 100, 200, 500, 600, 700, 800, 900].map((n) => [n, `rgb(var(--brand-${n}) / <alpha-value>)`])
         ),
-        // Neutros do estilo Stripe (fundo, bordas, textos de apoio)
-        stone: {
-          50: "#f6f9fc",
-          100: "#eef2f7",
-          200: "#e3e8ee",
-          300: "#d5dbe3",
-          400: "#a3acb9",
-          500: "#8792a2",
-          600: "#425466",
-          700: "#3c4257",
-          800: "#2a2f45",
-          900: "#0a2540",
-        },
+        // Neutros do estilo Stripe (fundo, bordas, textos de apoio); trocam no modo escuro (globals.css)
+        stone: Object.fromEntries(
+          [50, 100, 200, 300, 400, 500, 600, 700, 800, 900].map((n) => [n, `rgb(var(--n-${n}) / <alpha-value>)`])
+        ),
+        // Fundo de cartões, menus e campos: branco no modo claro, azul-noite no escuro
+        superficie: "rgb(var(--superficie) / <alpha-value>)",
       },
     },
   },

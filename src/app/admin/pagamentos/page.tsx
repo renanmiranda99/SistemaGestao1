@@ -43,7 +43,7 @@ export default async function AdminPagamentos({ searchParams }: { searchParams: 
       <section className="mb-6">
         <div className="mb-3 flex items-center gap-2.5">
           <h2 className="titulo-secao">Comprovantes para analisar</h2>
-          <span className="badge bg-[#cff5f6] text-[#0055bc]">{comprovantes.length}</span>
+          <span className="badge bg-[#cff5f6] text-[#0055bc] dark:bg-[#0d2f45] dark:text-[#8fd3ff]">{comprovantes.length}</span>
         </div>
         {comprovantes.length ? (
           <div className="grid gap-4 lg:grid-cols-2">
@@ -134,7 +134,7 @@ export default async function AdminPagamentos({ searchParams }: { searchParams: 
                         )}
                         <details className="relative">
                           <summary className="btn-secondary btn-sm cursor-pointer list-none">Boleto</summary>
-                          <form action={atualizarCobranca.bind(null, c.id)} className="absolute right-0 z-20 mt-1 w-80 space-y-2 rounded-xl border border-stone-200 bg-white p-3 shadow-lg">
+                          <form action={atualizarCobranca.bind(null, c.id)} className="absolute right-0 z-20 mt-1 w-80 space-y-2 rounded-xl border border-stone-200 bg-superficie p-3 shadow-lg">
                             <div className="grid grid-cols-2 gap-2">
                               <input name="valor" defaultValue={String(c.valor).replace(".", ",")} className="input" title="Valor" />
                               <input name="vencimento" type="date" defaultValue={c.vencimento} className="input" />

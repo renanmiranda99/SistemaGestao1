@@ -204,7 +204,7 @@ export default async function AdminPainel({ searchParams }: { searchParams: { an
                 const ehHoje = c.vencimento === hoje;
                 return (
                   <li key={c.id} className="flex items-center gap-3">
-                    <div className={`w-12 shrink-0 rounded-md py-1.5 text-center ${ehHoje ? "bg-[#fcedb9] text-[#4d3803]" : "bg-stone-100 text-stone-700"}`}>
+                    <div className={`w-12 shrink-0 rounded-md py-1.5 text-center ${ehHoje ? "bg-[#fcedb9] text-[#4d3803] dark:bg-[#3a2e0d] dark:text-[#f5cf6b]" : "bg-stone-100 text-stone-700"}`}>
                       <div className="text-[11px] font-semibold uppercase">{ehHoje ? "Hoje" : nomeMesCurto(Number(c.vencimento.slice(5, 7)) - 1)}</div>
                       <div className="text-[17px] font-bold">{c.vencimento.slice(8, 10)}</div>
                     </div>

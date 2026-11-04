@@ -9,9 +9,9 @@ import { BotaoWhatsApp } from "@/components/BotaoWhatsApp";
 import { ChaveWhatsApp } from "@/components/ChaveWhatsApp";
 
 const SITUACOES = {
-  dia: { r: "Em dia", cor: "bg-[#d7f7c2] text-[#05690d]" },
-  atrasado: { r: "Atrasado", cor: "bg-[#ffe6d5] text-[#9e2f00]" },
-  cobranca: { r: "Em cobrança", cor: "bg-[#ffe7f2] text-[#b3093c]" },
+  dia: { r: "Em dia", cor: "bg-[#d7f7c2] text-[#05690d] dark:bg-[#12361d] dark:text-[#8fe3a1]" },
+  atrasado: { r: "Atrasado", cor: "bg-[#ffe6d5] text-[#9e2f00] dark:bg-[#3d2012] dark:text-[#ffb68a]" },
+  cobranca: { r: "Em cobrança", cor: "bg-[#ffe7f2] text-[#b3093c] dark:bg-[#3d1224] dark:text-[#ff9cc0]" },
   inativo: { r: "Inativo", cor: "bg-stone-100 text-stone-600" },
 } as const;
 type ChaveSituacao = keyof typeof SITUACOES;

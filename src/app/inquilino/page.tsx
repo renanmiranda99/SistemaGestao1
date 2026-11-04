@@ -40,14 +40,14 @@ export default async function InquilinoInicio() {
       <PageHeader sobretitulo={dataHoje} titulo={`Olá, ${primeiroNome}`} />
 
       {maisAntiga && (
-        <section className="mb-6 flex flex-wrap items-center gap-4 rounded-lg border border-[#f5d3b0] bg-[#fdf1e4] px-6 py-5">
+        <section className="mb-6 flex flex-wrap items-center gap-4 rounded-lg border border-[#f5d3b0] dark:border-[#5a3a1c] bg-[#fdf1e4] dark:bg-[#3a2410] px-6 py-5">
           <span aria-hidden="true" className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-[#ef9b52] text-[#3d1c04]">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <circle cx="12" cy="12" r="9" />
               <path d="M12 7v5l3 2" />
             </svg>
           </span>
-          <div className="min-w-0 flex-[1_1_320px] text-[#4a2306]">
+          <div className="min-w-0 flex-[1_1_320px] text-[#4a2306] dark:text-[#f7c79a]">
             <div className="text-[17px] font-bold">
               {pendentes.length === 1
                 ? `Boleto de ${mesAnoLongo(maisAntiga.competencia).split(" ")[0]} vencido · ${brl(totalPendente)}`

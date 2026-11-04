@@ -50,23 +50,23 @@ export const ROTULO_SITUACAO: Record<Situacao, string> = {
 
 /** Cores do selo (badge) de cada situação. */
 export const COR_SITUACAO: Record<Situacao, string> = {
-  paga: "bg-[#d7f7c2] text-[#05690d]",
-  paga_atraso: "bg-[#fcedb9] text-[#a82c00]",
-  paga_acordo: "bg-[#e5e3ff] text-[#3d33cc]",
-  em_analise: "bg-[#cff5f6] text-[#0055bc]",
+  paga: "bg-[#d7f7c2] text-[#05690d] dark:bg-[#12361d] dark:text-[#8fe3a1]",
+  paga_atraso: "bg-[#fcedb9] text-[#a82c00] dark:bg-[#3a2e0d] dark:text-[#f5cf6b]",
+  paga_acordo: "bg-[#e5e3ff] text-[#3d33cc] dark:bg-[#24214d] dark:text-[#b8b3ff]",
+  em_analise: "bg-[#cff5f6] text-[#0055bc] dark:bg-[#0d2f45] dark:text-[#8fd3ff]",
   a_vencer: "bg-stone-100 text-stone-700",
-  vence_hoje: "bg-[#fcedb9] text-[#7a3a00]",
-  vencida: "bg-[#ffe6d5] text-[#9e2f00]",
-  em_cobranca: "bg-[#ffe7f2] text-[#b3093c]",
+  vence_hoje: "bg-[#fcedb9] text-[#7a3a00] dark:bg-[#3a2e0d] dark:text-[#f5cf6b]",
+  vencida: "bg-[#ffe6d5] text-[#9e2f00] dark:bg-[#3d2012] dark:text-[#ffb68a]",
+  em_cobranca: "bg-[#ffe7f2] text-[#b3093c] dark:bg-[#3d1224] dark:text-[#ff9cc0]",
   cancelada: "bg-stone-100 text-stone-500 line-through",
 };
 
 /** Cores do quadradinho da grade mês a mês (mais fortes que o selo). */
 export const COR_CELULA: Record<Situacao, string> = {
   paga: "bg-[#228403] text-white",
-  paga_atraso: "bg-[#d7f7c2] text-[#05690d] shadow-[inset_0_0_0_2px_#d97917]",
+  paga_atraso: "bg-[#d7f7c2] text-[#05690d] dark:bg-[#12361d] dark:text-[#8fe3a1] shadow-[inset_0_0_0_2px_#d97917]",
   paga_acordo: "bg-[#635bff] text-white",
-  em_analise: "bg-[#cff5f6] text-[#0055bc]",
+  em_analise: "bg-[#cff5f6] text-[#0055bc] dark:bg-[#0d2f45] dark:text-[#8fd3ff]",
   a_vencer: "border-[1.5px] border-dashed border-stone-300 text-stone-600",
   vence_hoje: "bg-[#f5be58] text-[#3d1c04]",
   vencida: "bg-[#fa8b48] text-[#3d1c04]",

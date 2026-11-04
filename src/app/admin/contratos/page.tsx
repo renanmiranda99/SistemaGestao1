@@ -104,10 +104,10 @@ export default async function ContratosAdmin({ searchParams }: { searchParams: {
 
       <div className="mb-4 flex flex-wrap items-center gap-3">
         <div className="flex gap-1 rounded-full bg-stone-100 p-1" role="tablist" aria-label="Contratos ou aditivos">
-          <Link href={href({ aba: "" })} role="tab" aria-selected={aba === "contratos"} className={`rounded-full px-4 py-2 text-sm font-semibold ${aba === "contratos" ? "bg-white text-stone-900 shadow-sm" : "text-stone-600"}`}>
+          <Link href={href({ aba: "" })} role="tab" aria-selected={aba === "contratos"} className={`rounded-full px-4 py-2 text-sm font-semibold ${aba === "contratos" ? "bg-superficie text-stone-900 shadow-sm" : "text-stone-600"}`}>
             Contratos <span className="opacity-60">{contratos.length}</span>
           </Link>
-          <Link href={href({ aba: "aditivos" })} role="tab" aria-selected={aba === "aditivos"} className={`rounded-full px-4 py-2 text-sm font-semibold ${aba === "aditivos" ? "bg-white text-stone-900 shadow-sm" : "text-stone-600"}`}>
+          <Link href={href({ aba: "aditivos" })} role="tab" aria-selected={aba === "aditivos"} className={`rounded-full px-4 py-2 text-sm font-semibold ${aba === "aditivos" ? "bg-superficie text-stone-900 shadow-sm" : "text-stone-600"}`}>
             Aditivos <span className="opacity-60">{aditivos.length}</span>
           </Link>
         </div>
@@ -135,10 +135,10 @@ export default async function ContratosAdmin({ searchParams }: { searchParams: {
               const selo = !ct.ativo
                 ? { r: "Encerrado", cor: "bg-stone-100 text-stone-600" }
                 : dias !== null && dias < 0
-                  ? { r: `Vencido há ${-dias} dia(s)`, cor: "bg-[#ffe7f2] text-[#b3093c]" }
+                  ? { r: `Vencido há ${-dias} dia(s)`, cor: "bg-[#ffe7f2] text-[#b3093c] dark:bg-[#3d1224] dark:text-[#ff9cc0]" }
                   : dias !== null && dias <= 60
-                    ? { r: `Vence em ${dias} dia(s)`, cor: "bg-[#ffe6d5] text-[#9e2f00]" }
-                    : { r: "Vigente", cor: "bg-[#d7f7c2] text-[#05690d]" };
+                    ? { r: `Vence em ${dias} dia(s)`, cor: "bg-[#ffe6d5] text-[#9e2f00] dark:bg-[#3d2012] dark:text-[#ffb68a]" }
+                    : { r: "Vigente", cor: "bg-[#d7f7c2] text-[#05690d] dark:bg-[#12361d] dark:text-[#8fe3a1]" };
               return (
                 <details key={ct.id} className="card group p-0">
                   <summary className="flex cursor-pointer list-none flex-wrap items-center gap-x-6 gap-y-2 px-5 py-4 hover:bg-stone-50/60">
@@ -210,7 +210,7 @@ export default async function ContratosAdmin({ searchParams }: { searchParams: {
                       {meus.length ? (
                         <ul className="flex flex-col gap-2">
                           {meus.map((ad) => (
-                            <li key={ad.id} className="rounded-lg border border-stone-200 bg-white p-3">
+                            <li key={ad.id} className="rounded-lg border border-stone-200 bg-superficie p-3">
                               <div className="flex flex-wrap items-start justify-between gap-2">
                                 <div className="min-w-0">
                                   <div className="text-sm font-semibold">{ad.titulo}</div>

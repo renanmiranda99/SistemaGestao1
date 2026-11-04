@@ -13,7 +13,7 @@ type InquilinoOpcao = Pick<Profile, "id" | "nome" | "email">;
 
 const TIPO_VISTORIA: Record<TipoVistoria, { r: string; cor: string }> = {
   entrada: { r: "Entrada", cor: "bg-brand-100 text-brand-700" },
-  dano: { r: "Dano", cor: "bg-[#ffe7f2] text-[#b3093c]" },
+  dano: { r: "Dano", cor: "bg-[#ffe7f2] text-[#b3093c] dark:bg-[#3d1224] dark:text-[#ff9cc0]" },
   saida: { r: "Saída", cor: "bg-stone-100 text-stone-700" },
 };
 
@@ -144,7 +144,7 @@ function CartaoSala({
             {inquilinoNome}
           </Link>
         ) : sala.disponivel_aluguel ? (
-          <a href="/" target="_blank" rel="noreferrer" className="badge bg-[#d7f7c2] text-[#05690d] hover:underline">
+          <a href="/" target="_blank" rel="noreferrer" className="badge bg-[#d7f7c2] text-[#05690d] dark:bg-[#12361d] dark:text-[#8fe3a1] hover:underline">
             Disponível para aluguel · anunciada
           </a>
         ) : (
@@ -247,7 +247,7 @@ function BlocoContrato({
   }
   if (!contrato) {
     return (
-      <div className="rounded-xl bg-[#fdf1e4] px-4 py-3 text-sm text-[#5c2a06]">
+      <div className="rounded-xl bg-[#fdf1e4] dark:bg-[#3a2410] px-4 py-3 text-sm text-[#5c2a06] dark:text-[#f7c79a]">
         Esta sala tem inquilino, mas nenhum contrato ativo.{" "}
         <Link href={`/admin/inquilinos/${sala.inquilino_id}`} className="font-semibold underline">Criar contrato</Link>
       </div>

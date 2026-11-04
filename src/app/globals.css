@@ -13,6 +13,34 @@
   --brand-700: 74 68 191;
   --brand-800: 30 57 80;
   --brand-900: 10 37 64;
+  /* Neutros do estilo Stripe */
+  --n-50: 246 249 252;
+  --n-100: 238 242 247;
+  --n-200: 227 232 238;
+  --n-300: 213 219 227;
+  --n-400: 163 172 185;
+  --n-500: 135 146 162;
+  --n-600: 66 84 102;
+  --n-700: 60 66 87;
+  --n-800: 42 47 69;
+  --n-900: 10 37 64;
+  --superficie: 255 255 255;
+}
+
+/* Modo escuro: a escala de neutros se inverte (fundo escuro, texto claro) */
+:root.dark {
+  color-scheme: dark;
+  --n-50: 10 17 30;
+  --n-100: 22 31 48;
+  --n-200: 36 48 70;
+  --n-300: 49 63 88;
+  --n-400: 82 97 122;
+  --n-500: 125 139 163;
+  --n-600: 166 178 198;
+  --n-700: 196 205 219;
+  --n-800: 222 228 237;
+  --n-900: 243 246 250;
+  --superficie: 17 26 43;
 }
 
 body {
@@ -21,7 +49,7 @@ body {
 
 @layer components {
   .card {
-    @apply rounded-lg bg-white p-5 shadow-[0_2px_5px_rgba(50,50,93,0.1),0_1px_1px_rgba(0,0,0,0.07)];
+    @apply rounded-lg bg-superficie p-5 shadow-[0_2px_5px_rgba(50,50,93,0.1),0_1px_1px_rgba(0,0,0,0.07)] dark:shadow-[0_0_0_1px_rgb(var(--n-200))];
   }
   .btn {
     @apply inline-flex min-h-11 items-center justify-center gap-2 whitespace-nowrap rounded-full border border-transparent px-4 text-sm font-medium transition disabled:cursor-not-allowed disabled:opacity-50;
@@ -30,28 +58,28 @@ body {
     @apply btn bg-brand-600 text-white hover:bg-brand-700;
   }
   .btn-secondary {
-    @apply btn border-stone-200 bg-white text-stone-900 shadow-[0_1px_1px_rgba(0,0,0,0.07)] hover:bg-stone-50;
+    @apply btn border-stone-200 bg-superficie text-stone-900 shadow-[0_1px_1px_rgba(0,0,0,0.07)] hover:bg-stone-50;
   }
   .btn-danger {
-    @apply btn border-red-200 bg-white text-red-700 hover:bg-red-50;
+    @apply btn border-red-200 bg-superficie text-red-700 hover:bg-red-50 dark:border-red-900 dark:text-red-300 dark:hover:bg-red-950;
   }
   .btn-success {
     @apply btn bg-[#228403] text-white hover:bg-[#1a6602];
   }
   .btn-whatsapp {
-    @apply btn border-[#b9e2c9] bg-[#e3f5ea] text-[#0f5132] hover:bg-[#d3eedd];
+    @apply btn border-[#b9e2c9] bg-[#e3f5ea] text-[#0f5132] dark:bg-[#12361d] dark:text-[#8fe3a1] hover:bg-[#d3eedd];
   }
   .btn-sm {
     @apply min-h-9 px-3 text-[13px];
   }
   .chip {
-    @apply inline-flex min-h-9 items-center gap-2 rounded-full border border-stone-300 bg-white px-3.5 text-[13px] font-medium text-stone-700 hover:bg-stone-100;
+    @apply inline-flex min-h-9 items-center gap-2 rounded-full border border-stone-300 bg-superficie px-3.5 text-[13px] font-medium text-stone-700 hover:bg-stone-100;
   }
   .chip-ativo {
     @apply border-brand-600 bg-brand-600 text-white hover:bg-brand-600;
   }
   .input {
-    @apply block min-h-11 w-full rounded-md border border-stone-300 bg-white px-3 py-2 text-sm text-stone-900 shadow-[0_1px_1px_rgba(0,0,0,0.05)] outline-none placeholder:text-stone-500 focus:border-brand-600 focus:ring-4 focus:ring-brand-100;
+    @apply block min-h-11 w-full rounded-md border border-stone-300 bg-superficie px-3 py-2 text-sm text-stone-900 shadow-[0_1px_1px_rgba(0,0,0,0.05)] outline-none placeholder:text-stone-500 focus:border-brand-600 focus:ring-4 focus:ring-brand-100;
   }
   .label {
     @apply mb-1.5 block text-[13px] font-medium text-stone-800;

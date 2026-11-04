@@ -79,19 +79,19 @@ export function LegendaSituacoes({ itens }: { itens: Situacao[] }) {
 }
 
 const CORES_STATUS: Record<string, string> = {
-  aberto: "bg-[#fcedb9] text-[#7a3a00]",
+  aberto: "bg-[#fcedb9] text-[#7a3a00] dark:bg-[#3a2e0d] dark:text-[#f5cf6b]",
   em_andamento: "bg-brand-100 text-brand-700",
-  resolvido: "bg-[#d7f7c2] text-[#05690d]",
+  resolvido: "bg-[#d7f7c2] text-[#05690d] dark:bg-[#12361d] dark:text-[#8fe3a1]",
   fechado: "bg-stone-100 text-stone-600",
-  pendente: "bg-[#ffe6d5] text-[#9e2f00]",
-  paga: "bg-[#d7f7c2] text-[#05690d]",
+  pendente: "bg-[#ffe6d5] text-[#9e2f00] dark:bg-[#3d2012] dark:text-[#ffb68a]",
+  paga: "bg-[#d7f7c2] text-[#05690d] dark:bg-[#12361d] dark:text-[#8fe3a1]",
   cancelada: "bg-stone-100 text-stone-500",
-  em_analise: "bg-[#cff5f6] text-[#0055bc]",
-  aprovado: "bg-[#d7f7c2] text-[#05690d]",
-  rejeitado: "bg-[#ffe7f2] text-[#b3093c]",
+  em_analise: "bg-[#cff5f6] text-[#0055bc] dark:bg-[#0d2f45] dark:text-[#8fd3ff]",
+  aprovado: "bg-[#d7f7c2] text-[#05690d] dark:bg-[#12361d] dark:text-[#8fe3a1]",
+  rejeitado: "bg-[#ffe7f2] text-[#b3093c] dark:bg-[#3d1224] dark:text-[#ff9cc0]",
   baixa: "bg-stone-100 text-stone-700",
-  media: "bg-[#ffe6d5] text-[#9e2f00]",
-  alta: "bg-[#ffe7f2] text-[#b3093c]",
+  media: "bg-[#ffe6d5] text-[#9e2f00] dark:bg-[#3d2012] dark:text-[#ffb68a]",
+  alta: "bg-[#ffe7f2] text-[#b3093c] dark:bg-[#3d1224] dark:text-[#ff9cc0]",
 };
 
 const ROTULOS: Record<string, string> = {
@@ -120,7 +120,7 @@ export function StatusBadge({ status }: { status: string }) {
 
 export function Vazio({ children }: { children: React.ReactNode }) {
   return (
-    <div className="rounded-lg border border-dashed border-stone-300 bg-white px-4 py-10 text-center text-sm text-stone-600">
+    <div className="rounded-lg border border-dashed border-stone-300 bg-superficie px-4 py-10 text-center text-sm text-stone-600">
       {children}
     </div>
   );
@@ -152,7 +152,7 @@ export function Stat({
             ? "text-[#9e2f00]"
             : "text-stone-900";
   const conteudo = (
-    <div className={`flex h-full flex-col gap-3 rounded-lg border border-stone-200 bg-white p-5 ${href ? "transition hover:border-stone-300 hover:shadow-sm" : ""}`}>
+    <div className={`flex h-full flex-col gap-3 rounded-lg border border-stone-200 bg-superficie p-5 ${href ? "transition hover:border-stone-300 hover:shadow-sm" : ""}`}>
       <div className="text-[13px] font-medium text-stone-600">{rotulo}</div>
       <div className={`text-[26px] font-bold leading-none tracking-tight ${cor}`}>{valor}</div>
       {children}
@@ -170,10 +170,10 @@ export function Alerta({
   children: React.ReactNode;
 }) {
   const cor = {
-    info: "bg-brand-50 text-brand-900",
-    erro: "bg-[#fbe4e1] text-[#5f140c]",
-    aviso: "bg-[#fdf1e4] text-[#5c2a06]",
-    ok: "bg-[#e3f2e9] text-[#0f3d24]",
+    info: "bg-brand-50 text-brand-700",
+    erro: "bg-[#fbe4e1] text-[#5f140c] dark:bg-[#3d1515] dark:text-[#ffb0a6]",
+    aviso: "bg-[#fdf1e4] text-[#5c2a06] dark:bg-[#3a2410] dark:text-[#f7c79a]",
+    ok: "bg-[#e3f2e9] text-[#0f3d24] dark:bg-[#12361d] dark:text-[#8fe3a1]",
   }[tipo];
   return <div className={`rounded-xl px-4 py-3 text-sm leading-relaxed ${cor}`}>{children}</div>;
 }

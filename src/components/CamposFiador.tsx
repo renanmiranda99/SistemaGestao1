@@ -4,7 +4,7 @@ import type { Contrato } from "@/lib/types";
 export function CamposFiador({ prefixo, valores }: { prefixo: string; valores?: Partial<Contrato> | null }) {
   const id = (k: string) => `${prefixo}-fiador-${k}`;
   return (
-    <fieldset className="grid gap-3 rounded-xl border border-stone-200 bg-white p-4 sm:grid-cols-2 lg:col-span-full">
+    <fieldset className="grid gap-3 rounded-xl border border-stone-200 bg-superficie p-4 sm:grid-cols-2 lg:col-span-full">
       <legend className="px-1 text-sm font-semibold">Fiador <span className="font-normal text-stone-600">(opcional)</span></legend>
       <div>
         <label className="label" htmlFor={id("nome")}>Nome completo</label>

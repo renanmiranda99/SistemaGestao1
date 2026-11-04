@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { getConfig } from "@/lib/config";
+import { BotaoTema } from "@/components/BotaoTema";
+import { LogoCompleta } from "@/components/LogoCompleta";
 
 export async function AuthCard({
   titulo,
@@ -14,11 +16,14 @@ export async function AuthCard({
   return (
     <div className="flex min-h-screen flex-wrap bg-stone-50">
       <section className="flex flex-[1_1_420px] flex-col justify-between gap-10 faixa-marca px-6 py-10 text-white/90 md:p-12">
+        <div className="flex items-center justify-between gap-3">
         <Link href="/" title="Ir para a página inicial" className="flex w-fit items-center gap-3 rounded-md hover:opacity-90">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={config.logoMarcaUrl} alt="" width={40} height={40} className="h-10 w-10 rounded-full object-cover ring-1 ring-white/30" />
           <span className="text-[17px] font-semibold text-white">{config.nome}</span>
         </Link>
+        <BotaoTema claro />
+        </div>
         <div className="flex max-w-[460px] flex-col gap-4">
           <h2 className="text-[32px] font-light leading-tight tracking-tight text-white md:text-[42px]">{config.loginTitulo}</h2>
           <p className="text-base leading-relaxed text-white/80">
@@ -30,8 +35,7 @@ export async function AuthCard({
 
       <section className="grid flex-[1_1_480px] place-items-center px-6 py-12">
         <div className="w-full max-w-[440px]">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={config.logoCompletaUrl} alt={config.nome} width={300} height={64} className="mb-8 h-auto w-[220px] mix-blend-multiply" />
+          <LogoCompleta url={config.logoCompletaUrl} nome={config.nome} className="mb-8 h-auto w-[220px]" />
           <h1 className="text-[28px] font-semibold tracking-tight text-stone-900">{titulo}</h1>
           <p className="mb-7 mt-1.5 text-[15px] text-stone-600">{subtitulo}</p>
           {children}

@@ -159,10 +159,10 @@ export function NovoContrato({
         <input ref={input} type="file" accept="application/pdf,image/*" className="sr-only" onChange={ler} aria-label="Arquivo do contrato" />
         {erro && <p className="text-sm text-red-700" role="alert">{erro}</p>}
         {avisos.map((a) => (
-          <p key={a} className="rounded-lg bg-[#fdf1e4] px-3 py-2 text-sm text-[#5c2a06]">{a}</p>
+          <p key={a} className="rounded-lg bg-[#fdf1e4] dark:bg-[#3a2410] px-3 py-2 text-sm text-[#5c2a06] dark:text-[#f7c79a]">{a}</p>
         ))}
         {observacoes && (
-          <p className="rounded-lg bg-white px-3 py-2 text-sm text-stone-700"><b>Observações do contrato:</b> {observacoes}</p>
+          <p className="rounded-lg bg-superficie px-3 py-2 text-sm text-stone-700"><b>Observações do contrato:</b> {observacoes}</p>
         )}
       </div>
 
@@ -195,7 +195,7 @@ export function NovoContrato({
         {campoTexto("multa_percentual", "Multa (%)", { inputMode: "decimal" })}
         {campoTexto("juros_mensal_percentual", "Juros ao mês (%)", { inputMode: "decimal" })}
 
-        <fieldset className="grid gap-3 rounded-xl border border-stone-200 bg-white p-4 sm:col-span-2 sm:grid-cols-2 lg:col-span-4">
+        <fieldset className="grid gap-3 rounded-xl border border-stone-200 bg-superficie p-4 sm:col-span-2 sm:grid-cols-2 lg:col-span-4">
           <legend className="px-1 text-sm font-semibold">Fiador <span className="font-normal text-stone-600">(opcional)</span></legend>
           {campoTexto("fiador_nome", "Nome completo", { autoComplete: "off" })}
           {campoTexto("fiador_cpf", "CPF ou CNPJ", { inputMode: "numeric", autoComplete: "off" })}

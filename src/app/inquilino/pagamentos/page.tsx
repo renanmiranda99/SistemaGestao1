@@ -188,7 +188,7 @@ function BoletoEmDestaque({
   const selo =
     sit === "vencida" || sit === "em_cobranca" ? `Vencido há ${dias} dia(s)` : sit === "vence_hoje" ? "Vence hoje" : `Vence em ${-dias} dia(s)`;
   const corSelo =
-    sit === "em_cobranca" ? "bg-[#ffe7f2] text-[#b3093c]" : sit === "vencida" ? "bg-[#ffe6d5] text-[#9e2f00]" : sit === "vence_hoje" ? "bg-[#fcedb9] text-[#7a3a00]" : "bg-stone-100 text-stone-700";
+    sit === "em_cobranca" ? "bg-[#ffe7f2] text-[#b3093c] dark:bg-[#3d1224] dark:text-[#ff9cc0]" : sit === "vencida" ? "bg-[#ffe6d5] text-[#9e2f00] dark:bg-[#3d2012] dark:text-[#ffb68a]" : sit === "vence_hoje" ? "bg-[#fcedb9] text-[#7a3a00] dark:bg-[#3a2e0d] dark:text-[#f5cf6b]" : "bg-stone-100 text-stone-700";
   const diaCobranca = new Date(Date.parse(`${c.vencimento}T12:00:00Z`) + diasTolerancia() * 86_400_000).toISOString().slice(0, 10);
   const emAnalise = comprovantes.some((m) => m.status === "em_analise");
 

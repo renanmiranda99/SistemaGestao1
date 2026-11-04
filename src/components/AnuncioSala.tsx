@@ -24,7 +24,7 @@ export function AnuncioSala({ sala }: { sala: DadosAnuncio }) {
 
   return (
     <>
-      <article className="group flex flex-col overflow-hidden rounded-lg border border-stone-200 bg-white transition hover:border-stone-300 hover:shadow-md">
+      <article className="group flex flex-col overflow-hidden rounded-lg border border-stone-200 bg-superficie transition hover:border-stone-300 hover:shadow-md">
         <button
           type="button"
           onClick={() => setAberto(0)}
@@ -122,7 +122,7 @@ function Visualizador({ sala, inicio, aoFechar }: { sala: DadosAnuncio; inicio: 
   }, [aoFechar, passar]);
 
   const seta =
-    "absolute top-1/2 grid h-12 w-12 -translate-y-1/2 place-items-center rounded-full bg-white/90 text-stone-900 shadow-lg transition hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-white";
+    "absolute top-1/2 grid h-12 w-12 -translate-y-1/2 place-items-center rounded-full bg-superficie/90 text-stone-900 shadow-lg transition hover:bg-superficie focus-visible:outline focus-visible:outline-2 focus-visible:outline-white";
 
   return (
     <div
@@ -134,7 +134,7 @@ function Visualizador({ sala, inicio, aoFechar }: { sala: DadosAnuncio; inicio: 
     >
       {/* Moldura: foto em cima, informações embaixo */}
       <div
-        className="flex max-h-full w-full max-w-[960px] flex-col overflow-hidden rounded-lg bg-white shadow-2xl"
+        className="flex max-h-full w-full max-w-[960px] flex-col overflow-hidden rounded-lg bg-superficie shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
         <div
@@ -176,7 +176,7 @@ function Visualizador({ sala, inicio, aoFechar }: { sala: DadosAnuncio; inicio: 
             ref={fechar}
             type="button"
             onClick={aoFechar}
-            className="absolute right-3 top-3 grid h-11 w-11 place-items-center rounded-full bg-white/90 text-stone-900 shadow-lg hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-white"
+            className="absolute right-3 top-3 grid h-11 w-11 place-items-center rounded-full bg-superficie/90 text-stone-900 shadow-lg hover:bg-superficie focus-visible:outline focus-visible:outline-2 focus-visible:outline-white"
             aria-label="Fechar"
           >
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" aria-hidden="true">

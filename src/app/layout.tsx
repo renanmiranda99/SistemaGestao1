@@ -3,6 +3,7 @@ import "./globals.css";
 import { getConfig } from "@/lib/config";
 import { CONFIG_PADRAO } from "@/lib/config-padrao";
 import { cssTema } from "@/lib/cores";
+import { SCRIPT_TEMA } from "@/components/BotaoTema";
 
 export async function generateMetadata(): Promise<Metadata> {
   const config = await getConfig();
@@ -21,8 +22,10 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const config = await getConfig();
   return (
-    <html lang="pt-BR">
+    <html lang="pt-BR" suppressHydrationWarning>
       <head>
+        {/* Aplica o modo escuro antes de pintar a página */}
+        <script dangerouslySetInnerHTML={{ __html: SCRIPT_TEMA }} />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         {/* eslint-disable-next-line @next/next/no-page-custom-font */}

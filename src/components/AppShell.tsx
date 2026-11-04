@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { sair } from "@/app/actions";
+import { BotaoTema } from "@/components/BotaoTema";
 
 export type Icone = "home" | "configuracoes" | "acordos" | "painel" | "inicio" | "inquilinos" | "pagamentos" | "whatsapp" | "chamados" | "galeria" | "multas" | "contratos";
 
@@ -17,7 +18,7 @@ export type ItemMenu = {
 };
 
 const COR_CONTADOR = {
-  analise: "bg-[#cff5f6] text-[#0055bc]",
+  analise: "bg-[#cff5f6] text-[#0055bc] dark:bg-[#0d2f45] dark:text-[#8fd3ff]",
   aviso: "bg-[#f6d27a] text-[#4d3803]",
   alerta: "bg-[#ef9b52] text-[#3d1c04]",
 };
@@ -181,7 +182,7 @@ export function AppShell({
       <Link
         href="/"
         tabIndex={emGaveta && !aberto ? -1 : undefined}
-        className="mb-3 flex min-h-11 items-center gap-3 rounded-md border border-stone-200 bg-white px-3 text-sm font-medium text-stone-700 transition hover:bg-stone-100 hover:text-stone-900"
+        className="mb-3 flex min-h-11 items-center gap-3 rounded-md border border-stone-200 bg-superficie px-3 text-sm font-medium text-stone-700 transition hover:bg-stone-100 hover:text-stone-900"
       >
         <Svg>{CAMINHOS.home}</Svg>
         <span className="flex-1">Home</span>
@@ -214,11 +215,14 @@ export function AppShell({
           );
         })}
       </ul>
+      <div className="mt-3 border-t border-stone-200 pt-3">
+        <BotaoTema comTexto />
+      </div>
     </nav>
   );
 
   const rodape = (emGaveta: boolean) => (
-    <div className="mt-auto flex items-center gap-3 rounded-lg border border-stone-200 bg-white p-3">
+    <div className="mt-auto flex items-center gap-3 rounded-lg border border-stone-200 bg-superficie p-3">
       <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-brand-600 text-sm font-semibold text-white">
         {iniciais(usuario)}
       </span>
@@ -253,7 +257,7 @@ export function AppShell({
       </aside>
 
       {/* Mobile: barra superior */}
-      <header className="sticky top-0 z-30 flex items-center justify-between gap-3 border-b border-stone-200 bg-white px-4 py-3 md:hidden">
+      <header className="sticky top-0 z-30 flex items-center justify-between gap-3 border-b border-stone-200 bg-superficie px-4 py-3 md:hidden">
         {marca}
         <button
           type="button"

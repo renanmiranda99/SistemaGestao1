@@ -150,7 +150,7 @@ function CampoCor({ id, nome, rotulo, valor, aoMudar, ajuda }: { id: string; nom
             aoMudar(e.target.value);
             setTexto(e.target.value);
           }}
-          className="h-11 w-14 cursor-pointer rounded-md border border-stone-300 bg-white p-1"
+          className="h-11 w-14 cursor-pointer rounded-md border border-stone-300 bg-superficie p-1"
           aria-label={`${rotulo}: seletor`}
         />
         <input
@@ -176,7 +176,7 @@ function PreviaCores({ primaria, menu }: { primaria: string; menu: string }) {
   const vars = variaveisTema(primaria, menu) as React.CSSProperties;
   return (
     <div style={vars} className="flex overflow-hidden rounded-xl border border-stone-200" aria-label="Prévia das cores" role="img">
-      <div className="flex w-36 flex-col gap-1.5 border-r border-stone-200 bg-white p-3">
+      <div className="flex w-36 flex-col gap-1.5 border-r border-stone-200 bg-superficie p-3">
         <span className="faixa-marca mb-1 h-2 w-16 rounded" />
         <span className="rounded-md bg-brand-50 px-2 py-1.5 text-[11px] font-semibold text-brand-600">Painel</span>
         <span className="rounded-md px-2 py-1.5 text-[11px] text-stone-600">Inquilinos</span>
@@ -284,7 +284,7 @@ export function FormConfiguracoes({ config }: { config: Config }) {
           <CampoCor id="cfg-cor-menu" nome="corMenu" rotulo="Cor escura" valor={menu} aoMudar={setMenu} ajuda="Início do degradê no topo da página inicial e no login. Use um tom escuro." />
         </div>
         {(contrastePrimaria < 4.5 || contrasteMenu < 4.5) && (
-          <p className="rounded-xl bg-[#fdf1e4] px-4 py-3 text-sm text-[#5c2a06]">
+          <p className="rounded-xl bg-[#fdf1e4] dark:bg-[#3a2410] px-4 py-3 text-sm text-[#5c2a06] dark:text-[#f7c79a]">
             {contrasteMenu < 4.5 && "A cor escura está clara demais: o texto branco do topo fica difícil de ler. "}
             {contrastePrimaria < 4.5 && "A cor principal está clara demais: o texto branco dos botões fica difícil de ler."}
           </p>

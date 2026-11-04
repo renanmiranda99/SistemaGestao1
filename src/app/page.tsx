@@ -7,6 +7,8 @@ import { brl, somenteDigitos } from "@/lib/format";
 import { telefoneWhatsApp } from "@/lib/whatsapp";
 import type { Foto, Sala } from "@/lib/types";
 import { AnuncioSala, type DadosAnuncio } from "@/components/AnuncioSala";
+import { BotaoTema } from "@/components/BotaoTema";
+import { LogoCompleta } from "@/components/LogoCompleta";
 
 export async function generateMetadata(): Promise<Metadata> {
   const config = await getConfig();
@@ -46,9 +48,12 @@ export default async function Home() {
             <img src={config.logoMarcaUrl} alt="" width={40} height={40} className="h-10 w-10 rounded-full object-cover ring-1 ring-white/30" />
             <span className="text-[17px] font-semibold text-white">{config.nome}</span>
           </Link>
-          <Link href={portal ?? "/login"} className="btn min-h-10 bg-white text-stone-900 hover:bg-white/90">
-            {portal ? "Ir para o portal" : "Entrar"}
-          </Link>
+          <div className="flex items-center gap-2">
+            <BotaoTema claro />
+            <Link href={portal ?? "/login"} className="btn min-h-10 bg-superficie text-stone-900 hover:bg-superficie/90">
+              {portal ? "Ir para o portal" : "Entrar"}
+            </Link>
+          </div>
         </div>
         <div className="mx-auto flex max-w-[1180px] flex-col gap-3 px-4 pb-12 pt-8 md:px-8 md:pb-16 md:pt-12">
           <h1 className="max-w-[680px] text-[34px] font-light leading-tight tracking-tight text-white md:text-[48px]">
@@ -92,7 +97,7 @@ export default async function Home() {
                 </a>
               )}
             </div>
-            <div className="overflow-hidden rounded-lg border border-stone-200 bg-white">
+            <div className="overflow-hidden rounded-lg border border-stone-200 bg-superficie">
               <iframe
                 src={urlMapaEmbed(config.mapaConsulta)}
                 title={`Mapa com a localização da ${config.nome}`}
@@ -105,11 +110,10 @@ export default async function Home() {
         )}
       </main>
 
-      <footer className="border-t border-stone-200 bg-white">
+      <footer className="border-t border-stone-200 bg-superficie">
         <div className="mx-auto flex max-w-[1180px] flex-wrap items-center justify-between gap-3 px-4 py-6 text-[13px] text-stone-600 md:px-8">
           <div className="flex flex-wrap items-center gap-4">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={config.logoCompletaUrl} alt={config.nome} className="h-auto max-h-12 w-auto max-w-[170px]" />
+            <LogoCompleta url={config.logoCompletaUrl} nome={config.nome} className="h-auto max-h-12 w-auto max-w-[170px]" />
             {config.rodapeTexto && <span className="whitespace-pre-line">{config.rodapeTexto}</span>}
           </div>
           <Link href={portal ?? "/login"} className="link">{portal ? "Ir para o portal" : "Área do inquilino e da administração"}</Link>

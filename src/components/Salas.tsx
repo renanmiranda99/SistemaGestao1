@@ -221,7 +221,7 @@ function GradeOrdenavel({
 }) {
   const [arrastando, setArrastando] = useState<number | null>(null);
   const [sobre, setSobre] = useState<number | null>(null);
-  const botao = "grid h-8 w-8 place-items-center rounded-lg bg-white/95 text-sm font-bold shadow disabled:opacity-40";
+  const botao = "grid h-8 w-8 place-items-center rounded-lg bg-superficie/95 text-sm font-bold shadow disabled:opacity-40";
 
   return (
     <div className="flex flex-col gap-1.5">
@@ -254,7 +254,7 @@ function GradeOrdenavel({
             <img src={item.src} alt={item.alt} draggable={false} className="aspect-[4/3] w-full rounded-lg border border-stone-200 object-cover" />
             <span
               className={`absolute left-2.5 top-2.5 rounded-full px-2 py-0.5 text-[11px] font-bold ${
-                i === 0 ? "bg-brand-600 text-white" : "bg-white/95 text-stone-800"
+                i === 0 ? "bg-brand-600 text-white" : "bg-superficie/95 text-stone-800"
               }`}
             >
               {i === 0 ? "Capa" : `${i + 1}º`}

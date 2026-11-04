@@ -78,7 +78,7 @@ export async function ChamadoDetalhe({
           const minha = (modo === "inquilino") === doInquilino;
           return (
             <div key={m.id} className={`flex ${minha ? "justify-end" : "justify-start"}`}>
-              <div className={`max-w-[85%] rounded-xl px-4 py-2.5 text-sm ${minha ? "bg-brand-600 text-white" : "border border-stone-200 bg-white"}`}>
+              <div className={`max-w-[85%] rounded-xl px-4 py-2.5 text-sm ${minha ? "bg-brand-600 text-white" : "border border-stone-200 bg-superficie"}`}>
                 <div className={`mb-0.5 text-xs ${minha ? "text-brand-100" : "text-stone-600"}`}>
                   {doInquilino ? nomeInquilino : "Administração"} · {dataHoraBR(m.created_at)}
                 </div>
